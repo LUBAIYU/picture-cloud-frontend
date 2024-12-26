@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', () => {
     userName: '未登录',
   })
 
-  const fetchLoginUser = () => {}
+  const fetchLoginUser = async () => {}
 
   const setLoginUser = (newLoginUser: never) => {
     loginUser.value = newLoginUser

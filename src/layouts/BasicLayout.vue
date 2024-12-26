@@ -19,9 +19,6 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 </template>
 
 <style scoped>
-#basicLayout {
-}
-
 #basicLayout .header {
   padding-inline: 20px;
   margin-bottom: 16px;

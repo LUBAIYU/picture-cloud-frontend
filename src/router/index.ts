@@ -8,6 +8,16 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
     },
+    {
+      path: '/user/login',
+      name: '用户登录',
+      component: () => import('@/views/user/UserLoginView.vue'),
+    },
+    {
+      path: '/user/register',
+      name: '用户注册',
+      component: () => import('@/views/user/UserRegisterView.vue'),
+    },
   ],
 })
 

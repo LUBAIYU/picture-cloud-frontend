@@ -1,15 +1,22 @@
 import axios from 'axios'
 
 // 创建 axios 实例
-const request = axios.create({
-  baseURL: 'http://localhost:8000/api',
+export const request = axios.create({
+  baseURL: 'http://localhost:8000',
   timeout: 60000,
   withCredentials: true,
 })
 
 // 全局请求拦截器
 request.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    // 从本地获取Token
+    const token = localStorage.getItem('Authorization')
+    if (token) {
+      config.headers['Authorization'] = `${token}`
+    }
+    return config
+  },
   (error) => {
     return Promise.reject(error)
   },
