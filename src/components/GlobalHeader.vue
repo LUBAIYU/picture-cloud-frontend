@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { HomeOutlined } from '@ant-design/icons-vue'
+import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore.ts'
@@ -18,6 +18,11 @@ const items = ref<MenuProps['items']>([
     label: '主页',
     title: '主页',
   },
+  {
+    key: '/admin/manage',
+    label: '用户管理',
+    title: '用户管理',
+  }
 ])
 
 const doMenuClick = ({ key }: { key: string }) => {
@@ -30,6 +35,15 @@ const doMenuClick = ({ key }: { key: string }) => {
 router.afterEach((to) => {
   current.value = [to.path]
 })
+
+// 退出登录
+const logout = () => {
+  localStorage.removeItem('Authorization')
+  userStore.setLoginUser({
+    userName: '未登录',
+  })
+  router.push('/user/login')
+}
 </script>
 
 <template>
@@ -54,7 +68,20 @@ router.afterEach((to) => {
       <a-col flex="120px">
         <div class="user-login-state">
           <div v-if="userStore.loginUser.id">
-            {{ userStore.loginUser.userName ?? '无名' }}
+            <a-dropdown>
+              <a-space>
+                <a-avatar :src="userStore.loginUser.userAvatar" />
+                {{ userStore.loginUser.userName ?? '无名' }}
+              </a-space>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item @click="logout">
+                    <LogoutOutlined />
+                    退出登录
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
           </div>
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>

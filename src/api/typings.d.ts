@@ -67,37 +67,37 @@ declare namespace API {
 
   type deletePictureByIdUsingDELETEParams = {
     /** picId */
-    picId: number
+    picId: string
   }
 
   type deleteUserByIdsUsingDELETEParams = {
     /** ids */
-    ids: number[]
+    ids: string[]
   }
 
   type freezeBatchUsersUsingGETParams = {
     /** ids */
-    ids: number[]
+    ids: string[]
   }
 
   type getPictureByIdUsingGETParams = {
     /** picId */
-    picId: number
+    picId: string
   }
 
   type getPictureVoByIdUsingGETParams = {
     /** picId */
-    picId: number
+    picId: string
   }
 
   type getUserByIdUsingGETParams = {
     /** id */
-    id: number
+    id: string
   }
 
   type getUserVoByIdUsingGETParams = {
     /** id */
-    id: number
+    id: string
   }
 
   type PageResultPicture_ = {
@@ -129,7 +129,7 @@ declare namespace API {
     isDelete?: number
     picFormat?: string
     picHeight?: number
-    picId?: number
+    picId?: string
     picName?: string
     picScale?: number
     picSize?: number

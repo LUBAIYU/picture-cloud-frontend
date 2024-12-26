@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 // 创建 axios 实例
 export const request = axios.create({
@@ -6,6 +7,8 @@ export const request = axios.create({
   timeout: 60000,
   withCredentials: true,
 })
+
+request.defaults.paramsSerializer = (params) => qs.stringify(params, { arrayFormat: 'repeat' })
 
 // 全局请求拦截器
 request.interceptors.request.use(

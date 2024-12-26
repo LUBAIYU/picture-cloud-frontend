@@ -18,6 +18,11 @@ const router = createRouter({
       name: '用户注册',
       component: () => import('@/views/user/UserRegisterView.vue'),
     },
+    {
+      path: '/admin/manage',
+      name: '用户管理',
+      component: () => import('@/views/admin/UserManageView.vue'),
+    },
   ],
 })
 
