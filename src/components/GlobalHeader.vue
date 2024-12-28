@@ -24,6 +24,11 @@ const items = ref<MenuProps['items']>([
     label: '用户管理',
     title: '用户管理',
   },
+  {
+    key: '/picture/add',
+    label: '创建图片',
+    title: '创建图片',
+  },
 ])
 
 const doMenuClick = ({ key }: { key: string }) => {

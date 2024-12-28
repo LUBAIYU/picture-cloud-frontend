@@ -23,6 +23,11 @@ const router = createRouter({
       name: '用户管理',
       component: () => import('@/views/admin/UserManageView.vue'),
     },
+    {
+      path: '/picture/add',
+      name: '创建图片',
+      component: () => import('@/views/picture/PictureAddView.vue'),
+    },
   ],
 })
 

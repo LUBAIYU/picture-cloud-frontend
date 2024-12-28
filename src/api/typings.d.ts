@@ -35,6 +35,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponsePictureTagCategoryVo_ = {
+    code?: number
+    data?: PictureTagCategoryVo
+    message?: string
+  }
+
   type BaseResponsePictureVo_ = {
     code?: number
     data?: PictureVo
@@ -67,37 +73,37 @@ declare namespace API {
 
   type deletePictureByIdUsingDELETEParams = {
     /** picId */
-    picId: string
+    picId: number
   }
 
   type deleteUserByIdsUsingDELETEParams = {
     /** ids */
-    ids: string[]
+    ids: number[]
   }
 
   type freezeBatchUsersUsingGETParams = {
     /** ids */
-    ids: string[]
+    ids: number[]
   }
 
   type getPictureByIdUsingGETParams = {
     /** picId */
-    picId: string
+    picId: number
   }
 
   type getPictureVoByIdUsingGETParams = {
     /** picId */
-    picId: string
+    picId: number
   }
 
   type getUserByIdUsingGETParams = {
     /** id */
-    id: string
+    id: number
   }
 
   type getUserVoByIdUsingGETParams = {
     /** id */
-    id: string
+    id: number
   }
 
   type PageResultPicture_ = {
@@ -129,7 +135,7 @@ declare namespace API {
     isDelete?: number
     picFormat?: string
     picHeight?: number
-    picId?: string
+    picId?: number
     picName?: string
     picScale?: number
     picSize?: number
@@ -170,6 +176,13 @@ declare namespace API {
     tagList?: string[]
   }
 
+  type PictureTagCategoryVo = {
+    /** 分类列表 */
+    categoryList?: string[]
+    /** 标签列表 */
+    tagList?: string[]
+  }
+
   type PictureUpdateDto = {
     /** 分类 */
     category?: string
@@ -197,7 +210,7 @@ declare namespace API {
     /** 图片高度 */
     picHeight?: number
     /** 图片ID */
-    picId?: number
+    picId?: string
     /** 图片名称 */
     picName?: string
     /** 图片宽高比例 */

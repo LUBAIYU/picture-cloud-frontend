@@ -61,6 +61,14 @@ export async function queryPictureByPageUsingPost(
   })
 }
 
+/** 获取图片标签分类列表 GET /api/picture/tag_category */
+export async function listPictureTagCategoryUsingGet(options?: { [key: string]: any }) {
+  return request<API.BaseResponsePictureTagCategoryVo_>('/api/picture/tag_category', {
+    method: 'GET',
+    ...(options || {}),
+  })
+}
+
 /** 更新图片信息（仅管理员） PUT /api/picture/update */
 export async function updatePictureByAdminUsingPut(
   body: API.PictureUpdateDto,
