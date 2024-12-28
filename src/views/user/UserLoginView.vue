@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/userStore.ts'
 import { loginUsingPost } from '@/api/yonghumokuai.ts'
 import { message } from 'ant-design-vue'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+import emitter from '@/eventBus.ts'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -24,10 +25,10 @@ const login = async () => {
       return
     }
     localStorage.setItem('Authorization', token)
-    // 获取登录用户
-    await userStore.fetchLoginUser()
     message.success('登录成功')
     await router.push('/')
+    // 发送登录成功事件
+    emitter.emit('loginSuccess')
   } else {
     message.error(res.message)
   }

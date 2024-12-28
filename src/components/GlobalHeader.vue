@@ -4,6 +4,7 @@ import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore.ts'
+import emitter from '@/eventBus.ts'
 
 const router = useRouter()
 
@@ -22,7 +23,7 @@ const items = ref<MenuProps['items']>([
     key: '/admin/manage',
     label: '用户管理',
     title: '用户管理',
-  }
+  },
 ])
 
 const doMenuClick = ({ key }: { key: string }) => {
@@ -44,6 +45,11 @@ const logout = () => {
   })
   router.push('/user/login')
 }
+
+// 监听登录成功事件
+emitter.on('loginSuccess', () => {
+  userStore.fetchLoginUser()
+})
 </script>
 
 <template>
@@ -67,7 +73,7 @@ const logout = () => {
       </a-col>
       <a-col flex="120px">
         <div class="user-login-state">
-          <div v-if="userStore.loginUser.id">
+          <div v-if="userStore.loginUser.userId">
             <a-dropdown>
               <a-space>
                 <a-avatar :src="userStore.loginUser.userAvatar" />
