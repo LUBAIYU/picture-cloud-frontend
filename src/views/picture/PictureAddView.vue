@@ -38,7 +38,7 @@ const handleSubmit = async (values: any) => {
   if (res.code === 0 && res.data) {
     message.success('创建成功')
     // 跳转到图片详情页
-    await router.push(`/picture/${pictureId}`)
+    await router.push(`/picture/detail/${pictureId}`)
   } else {
     message.error(res.message)
   }

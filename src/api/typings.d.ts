@@ -135,7 +135,7 @@ declare namespace API {
     isDelete?: number
     picFormat?: string
     picHeight?: number
-    picId?: number
+    picId?: string
     picName?: string
     picScale?: number
     picSize?: number
@@ -143,7 +143,7 @@ declare namespace API {
     picWidth?: number
     tags?: string
     updateTime?: string
-    userId?: number
+    userId?: string
   }
 
   type PictureEditDto = {
