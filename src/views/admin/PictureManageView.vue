@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { deletePictureByIdUsingDelete, queryPictureByPageUsingPost } from '@/api/tupianmokuai.ts'
+import {
+  deletePictureByIdUsingDelete,
+  doPictureReviewUsingPost,
+  queryPictureByPageUsingPost,
+} from '@/api/tupianmokuai.ts'
+import {
+  PIC_REVIEW_STATUS_ENUM,
+  PIC_REVIEW_STATUS_MAP,
+  PIC_REVIEW_STATUS_OPTIONS,
+} from '../../constants/picture.ts'
 
 const columns = [
   {
@@ -37,6 +46,11 @@ const columns = [
   {
     title: '图片信息',
     dataIndex: 'picInfo',
+    align: 'center',
+  },
+  {
+    title: '审核信息',
+    dataIndex: 'reviewInfo',
     align: 'center',
   },
   {
@@ -133,6 +147,24 @@ const doDelete = async (id: string) => {
   }
 }
 
+// 图片审核
+const handleReview = async (record: API.Picture, reviewStatus: number) => {
+  const reviewMessage =
+    reviewStatus === PIC_REVIEW_STATUS_ENUM.PASS ? '管理员操作通过' : '管理员操作拒绝'
+  const res = await doPictureReviewUsingPost({
+    id: record.picId,
+    reviewStatus,
+    reviewMessage,
+  })
+  if (res.code === 0) {
+    message.success('审核操作成功')
+  } else {
+    message.error('审核操作失败，' + res.message)
+  }
+  // 刷新数据
+  await loadData()
+}
+
 onMounted(() => loadData())
 </script>
 
@@ -150,6 +182,15 @@ onMounted(() => loadData())
           v-model:value="searchParams.tagList"
           mode="tags"
           placeholder="请输入标签"
+          allow-clear
+          style="min-width: 180px"
+        />
+      </a-form-item>
+      <a-form-item label="审核状态">
+        <a-select
+          v-model:value="searchParams.reviewStatus"
+          placeholder="请选择审核状态"
+          :options="PIC_REVIEW_STATUS_OPTIONS"
           allow-clear
           style="min-width: 180px"
         />
@@ -185,10 +226,31 @@ onMounted(() => loadData())
           <div>宽高比：{{ record.picScale }}</div>
           <div>大小：{{ (record.picSize / 1024).toFixed(2) }}KB</div>
         </template>
+        <template v-if="column.dataIndex === 'reviewInfo'">
+          <div>审核状态：{{ PIC_REVIEW_STATUS_MAP[record.reviewStatus] }}</div>
+          <div>审核信息：{{ record.reviewMessage ?? '-' }}</div>
+          <div>审核人：{{ record.reviewerId ?? '-' }}</div>
+          <div v-if="record.reviewTime">审核时间：{{ record.reviewTime }}</div>
+        </template>
         <template v-if="column.key === 'action'">
-          <a-space>
-            <a-button type="link" :href="`/picture/add?id=${record.picId}`" target="_blank"
-              >编辑
+          <a-space wrap>
+            <a-button
+              v-if="record.reviewStatus !== PIC_REVIEW_STATUS_ENUM.PASS"
+              type="link"
+              @click="handleReview(record, PIC_REVIEW_STATUS_ENUM.PASS)"
+            >
+              通过
+            </a-button>
+            <a-button
+              v-if="record.reviewStatus !== PIC_REVIEW_STATUS_ENUM.REJECT"
+              type="link"
+              danger
+              @click="handleReview(record, PIC_REVIEW_STATUS_ENUM.REJECT)"
+            >
+              拒绝
+            </a-button>
+            <a-button type="link" :href="`/picture/add?id=${record.picId}`" target="_blank">
+              编辑
             </a-button>
             <a-popconfirm
               title="确定删除这条记录吗？"

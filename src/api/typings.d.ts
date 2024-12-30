@@ -141,6 +141,10 @@ declare namespace API {
     picSize?: number
     picUrl?: string
     picWidth?: number
+    reviewMessage?: string
+    reviewStatus?: number
+    reviewTime?: string
+    reviewerId?: number
     tags?: string
     updateTime?: string
     userId?: string
@@ -170,10 +174,23 @@ declare namespace API {
     pageSize?: number
     /** 图片名称 */
     picName?: string
+    /** 审核信息 */
+    reviewMessage?: string
+    /** 审核状态：0-待审核；1-通过；2-拒绝 */
+    reviewStatus?: number
     /** 搜索关键词 */
     searchText?: string
     /** 标签列表 */
     tagList?: string[]
+  }
+
+  type PictureReviewDto = {
+    /** ID */
+    id?: number
+    /** 审核信息 */
+    reviewMessage?: string
+    /** 审核状态：0-待审核；1-通过；2-拒绝 */
+    reviewStatus?: number
   }
 
   type PictureTagCategoryVo = {
