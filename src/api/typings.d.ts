@@ -213,6 +213,13 @@ declare namespace API {
     tagList?: string[]
   }
 
+  type PictureUploadDto = {
+    /** 图片URL */
+    fileUrl?: string
+    /** 图片ID */
+    picId?: number
+  }
+
   type PictureVo = {
     /** 分类 */
     category?: string
@@ -253,6 +260,8 @@ declare namespace API {
   }
 
   type uploadPictureUsingPOSTParams = {
+    /** 图片URL */
+    fileUrl?: string
     /** 图片ID */
     picId?: number
   }

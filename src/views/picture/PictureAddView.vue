@@ -8,6 +8,7 @@ import {
   listPictureTagCategoryUsingGet,
 } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
+import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -22,6 +23,7 @@ const form = ref<API.PictureEditDto>({})
 
 const categoryOptions = ref<string[]>([])
 const tagOptions = ref<string[]>([])
+const uploadType = ref<'file' | 'url'>('file')
 
 /**
  * 提交表单
@@ -93,7 +95,17 @@ onMounted(() => getOldPicture())
     <h2 style="margin-bottom: 16px">
       {{ route.query?.id ? '修改图片' : '创建图片' }}
     </h2>
-    <PictureUpload :picture="picture" :on-success="onSuccess" />
+    <!-- 选择上传方式 -->
+    <a-tabs v-model:active-key="uploadType">
+      <a-tab-pane key="file" tab="文件上传">
+        <!-- 图片上传组件 -->
+        <PictureUpload :picture="picture" :on-success="onSuccess" />
+      </a-tab-pane>
+      <a-tab-pane key="url" tab="URL上传" force-render>
+        <!-- URL上传组件 -->
+        <UrlPictureUpload :picture="picture" :on-success="onSuccess" />
+      </a-tab-pane>
+    </a-tabs>
     <a-form v-if="picture" layout="vertical" :model="form" @finish="handleSubmit">
       <a-form-item label="名称" name="picName">
         <a-input v-model:value="form.picName" placeholder="请输入名称" />
