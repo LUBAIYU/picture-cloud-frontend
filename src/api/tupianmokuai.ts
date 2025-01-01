@@ -2,6 +2,21 @@
 /* eslint-disable */
 import { request } from '@/utils/request'
 
+/** 批量抓取并上传图片 POST /api/picture/batch/upload */
+export async function uploadPictureByBatchUsingPost(
+  body: API.PictureBatchDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseInt_>('/api/picture/batch/upload', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 根据ID删除图片 DELETE /api/picture/delete/${param0} */
 export async function deletePictureByIdUsingDelete(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

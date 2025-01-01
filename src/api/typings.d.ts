@@ -5,6 +5,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseInt_ = {
+    code?: number
+    data?: number
+    message?: string
+  }
+
   type BaseResponseLong_ = {
     code?: number
     data?: number
@@ -150,6 +156,15 @@ declare namespace API {
     userId?: string
   }
 
+  type PictureBatchDto = {
+    /** 抓取数量 */
+    count?: number
+    /** 图片名称前缀 */
+    namePrefix?: string
+    /** 搜索关键词 */
+    searchText?: string
+  }
+
   type PictureEditDto = {
     /** 分类 */
     category?: string
@@ -218,6 +233,8 @@ declare namespace API {
     fileUrl?: string
     /** 图片ID */
     picId?: number
+    /** 图片名称 */
+    picName?: string
   }
 
   type PictureVo = {
@@ -264,6 +281,8 @@ declare namespace API {
     fileUrl?: string
     /** 图片ID */
     picId?: number
+    /** 图片名称 */
+    picName?: string
   }
 
   type User = {

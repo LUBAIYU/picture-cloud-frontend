@@ -170,6 +170,16 @@ onMounted(() => loadData())
 
 <template>
   <div id="pictureManageView">
+    <a-flex justify="space-between">
+      <h2>图片管理</h2>
+      <a-space>
+        <a-button type="primary" href="/picture/add" target="_blank">+ 创建图片</a-button>
+        <a-button type="primary" ghost href="/picture/batch/add" target="_blank">
+          + 批量创建图片
+        </a-button>
+      </a-space>
+    </a-flex>
+    <div style="margin-bottom: 16px" />
     <a-form layout="inline" :model="searchParams" @finish="doSearch" style="margin-bottom: 20px">
       <a-form-item label="关键词">
         <a-input v-model:value="searchParams.searchText" placeholder="请输入关键词" allow-clear />

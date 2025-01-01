@@ -34,6 +34,11 @@ const router = createRouter({
       component: () => import('@/views/picture/PictureAddView.vue'),
     },
     {
+      path: '/picture/batch/add',
+      name: '批量创建图片',
+      component: () => import('@/views/picture/PictureBatchAddView.vue'),
+    },
+    {
       path: '/picture/detail/:id',
       name: '图片详情',
       component: () => import('@/views/picture/PictureDetailView.vue'),

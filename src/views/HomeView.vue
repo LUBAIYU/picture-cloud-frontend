@@ -21,7 +21,7 @@ const selectedTagList = ref<boolean[]>([])
 // 搜索条件
 const searchParams = ref<API.PicturePageDto>({
   current: 1,
-  pageSize: 12,
+  pageSize: 10,
 })
 
 // 分页参数
