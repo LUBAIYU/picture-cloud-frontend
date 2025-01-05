@@ -17,6 +17,21 @@ export async function uploadPictureByBatchUsingPost(
   })
 }
 
+/** 分页查询图片（封装类），多级缓存 POST /api/picture/cache/vo/page */
+export async function queryPictureVoByPageWithCacheUsingPost(
+  body: API.PicturePageDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageResultPictureVo_>('/api/picture/cache/vo/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 根据ID删除图片 DELETE /api/picture/delete/${param0} */
 export async function deletePictureByIdUsingDelete(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -27,21 +42,6 @@ export async function deletePictureByIdUsingDelete(
   return request<API.BaseResponseBoolean_>(`/api/picture/delete/${param0}`, {
     method: 'DELETE',
     params: { ...queryParams },
-    ...(options || {}),
-  })
-}
-
-/** 编辑图片信息 PUT /api/picture/edit */
-export async function editPictureUsingPut(
-  body: API.PictureEditDto,
-  options?: { [key: string]: any }
-) {
-  return request<API.BaseResponseBoolean_>('/api/picture/edit', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
     ...(options || {}),
   })
 }
@@ -99,8 +99,8 @@ export async function listPictureTagCategoryUsingGet(options?: { [key: string]: 
   })
 }
 
-/** 更新图片信息（仅管理员） PUT /api/picture/update */
-export async function updatePictureByAdminUsingPut(
+/** 更新图片信息 PUT /api/picture/update */
+export async function updatePictureUsingPut(
   body: API.PictureUpdateDto,
   options?: { [key: string]: any }
 ) {

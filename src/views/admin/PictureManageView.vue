@@ -11,6 +11,9 @@ import {
   PIC_REVIEW_STATUS_MAP,
   PIC_REVIEW_STATUS_OPTIONS,
 } from '../../constants/picture.ts'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const columns = [
   {
@@ -165,6 +168,16 @@ const handleReview = async (record: API.Picture, reviewStatus: number) => {
   await loadData()
 }
 
+// 跳转到编辑页面
+const doEdit = (id: string) => {
+  router.push({
+    path: '/picture/add',
+    query: {
+      id,
+    },
+  })
+}
+
 onMounted(() => loadData())
 </script>
 
@@ -259,9 +272,7 @@ onMounted(() => loadData())
             >
               拒绝
             </a-button>
-            <a-button type="link" :href="`/picture/add?id=${record.picId}`" target="_blank">
-              编辑
-            </a-button>
+            <a-button type="link" @click="doEdit(record.picId)" target="_blank"> 编辑</a-button>
             <a-popconfirm
               title="确定删除这条记录吗？"
               ok-text="确定"

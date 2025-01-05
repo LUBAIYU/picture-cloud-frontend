@@ -5,9 +5,27 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseCategory_ = {
+    code?: number
+    data?: Category
+    message?: string
+  }
+
   type BaseResponseInt_ = {
     code?: number
     data?: number
+    message?: string
+  }
+
+  type BaseResponseListCategoryListVo_ = {
+    code?: number
+    data?: CategoryListVo[]
+    message?: string
+  }
+
+  type BaseResponseListTagListVo_ = {
+    code?: number
+    data?: TagListVo[]
     message?: string
   }
 
@@ -59,6 +77,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseTag_ = {
+    code?: number
+    data?: Tag
+    message?: string
+  }
+
   type BaseResponseUser_ = {
     code?: number
     data?: User
@@ -77,6 +101,38 @@ declare namespace API {
     message?: string
   }
 
+  type Category = {
+    createTime?: string
+    id?: number
+    isDelete?: number
+    name?: string
+    updateTime?: string
+  }
+
+  type CategoryListVo = {
+    /** 主键ID */
+    id?: number
+    /** 分类名称 */
+    name?: string
+  }
+
+  type CategoryUpdateDto = {
+    /** 主键ID */
+    id?: number
+    /** 分类名称 */
+    name?: string
+  }
+
+  type delBatchCategoryUsingDELETEParams = {
+    /** ids */
+    ids: number[]
+  }
+
+  type delBatchTagUsingDELETEParams = {
+    /** ids */
+    ids: number[]
+  }
+
   type deletePictureByIdUsingDELETEParams = {
     /** picId */
     picId: number
@@ -92,6 +148,11 @@ declare namespace API {
     ids: number[]
   }
 
+  type getCategoryByIdUsingGETParams = {
+    /** id */
+    id: number
+  }
+
   type getPictureByIdUsingGETParams = {
     /** picId */
     picId: number
@@ -100,6 +161,11 @@ declare namespace API {
   type getPictureVoByIdUsingGETParams = {
     /** picId */
     picId: number
+  }
+
+  type getTagByIdUsingGETParams = {
+    /** id */
+    id: number
   }
 
   type getUserByIdUsingGETParams = {
@@ -141,7 +207,7 @@ declare namespace API {
     isDelete?: number
     picFormat?: string
     picHeight?: number
-    picId?: string
+    picId?: number
     picName?: string
     picScale?: number
     picSize?: number
@@ -153,7 +219,7 @@ declare namespace API {
     reviewerId?: number
     tags?: string
     updateTime?: string
-    userId?: string
+    userId?: number
   }
 
   type PictureBatchDto = {
@@ -163,19 +229,6 @@ declare namespace API {
     namePrefix?: string
     /** 搜索关键词 */
     searchText?: string
-  }
-
-  type PictureEditDto = {
-    /** 分类 */
-    category?: string
-    /** 简介 */
-    introduction?: string
-    /** 图片ID */
-    picId?: number
-    /** 图片名称 */
-    picName?: string
-    /** 标签列表 */
-    tagList?: string[]
   }
 
   type PicturePageDto = {
@@ -216,16 +269,16 @@ declare namespace API {
   }
 
   type PictureUpdateDto = {
-    /** 分类 */
-    category?: string
+    /** 分类ID */
+    categoryId?: number
     /** 简介 */
     introduction?: string
     /** 图片ID */
     picId?: number
     /** 图片名称 */
     picName?: string
-    /** 标签列表 */
-    tagList?: string[]
+    /** 标签ID列表 */
+    tagIdList?: number[]
   }
 
   type PictureUploadDto = {
@@ -251,7 +304,7 @@ declare namespace API {
     /** 图片高度 */
     picHeight?: number
     /** 图片ID */
-    picId?: string
+    picId?: number
     /** 图片名称 */
     picName?: string
     /** 图片宽高比例 */
@@ -269,6 +322,29 @@ declare namespace API {
     /** 创建用户ID */
     userId?: number
     userVo?: UserVo
+  }
+
+  type Tag = {
+    createTime?: string
+    id?: number
+    isDelete?: number
+    name?: string
+    updateTime?: string
+    useCount?: number
+  }
+
+  type TagListVo = {
+    /** 主键ID */
+    id?: number
+    /** 标签名称 */
+    name?: string
+  }
+
+  type TagUpdateDto = {
+    /** 主键ID */
+    id?: number
+    /** 标签名称 */
+    name?: string
   }
 
   type testFileDownloadUsingGETParams = {
@@ -359,7 +435,7 @@ declare namespace API {
     /** 用户头像 */
     userAvatar?: string
     /** ID */
-    userId?: string
+    userId?: number
     /** 用户昵称 */
     userName?: string
     /** 用户简介 */

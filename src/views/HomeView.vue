@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import {
   listPictureTagCategoryUsingGet,
-  queryPictureVoByPageUsingPost,
+  queryPictureVoByPageWithCacheUsingPost,
 } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -21,7 +21,7 @@ const selectedTagList = ref<boolean[]>([])
 // 搜索条件
 const searchParams = ref<API.PicturePageDto>({
   current: 1,
-  pageSize: 10,
+  pageSize: 12,
 })
 
 // 分页参数
@@ -57,7 +57,7 @@ const loadData = async () => {
   })
 
   // 查询数据
-  const res = await queryPictureVoByPageUsingPost(params)
+  const res = await queryPictureVoByPageWithCacheUsingPost(params)
   if (res.code === 0 && res.data) {
     dataList.value = res.data.records
     total.value = res.data.total

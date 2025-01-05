@@ -2,13 +2,11 @@
 import PictureUpload from '@/components/PictureUpload.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  editPictureUsingPut,
-  getPictureVoByIdUsingGet,
-  listPictureTagCategoryUsingGet,
-} from '@/api/tupianmokuai.ts'
+import { getPictureVoByIdUsingGet, updatePictureUsingPut } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
+import { listCategoryUsingGet } from '@/api/fenleimokuai.ts'
+import { listTagUsingGet } from '@/api/biaoqianmokuai.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -19,10 +17,10 @@ const onSuccess = (newPicture: API.PictureVo) => {
   form.value.picName = newPicture.picName
 }
 
-const form = ref<API.PictureEditDto>({})
+const form = ref<API.PictureUpdateDto>({})
 
-const categoryOptions = ref<string[]>([])
-const tagOptions = ref<string[]>([])
+const categoryOptions = ref([])
+const tagOptions = ref([])
 const uploadType = ref<'file' | 'url'>('file')
 
 /**
@@ -33,7 +31,7 @@ const handleSubmit = async (values: any) => {
   if (!pictureId) {
     return
   }
-  const res = await editPictureUsingPut({
+  const res = await updatePictureUsingPut({
     picId: pictureId,
     ...values,
   })
@@ -41,27 +39,6 @@ const handleSubmit = async (values: any) => {
     message.success('创建成功')
     // 跳转到图片详情页
     await router.push(`/picture/detail/${pictureId}`)
-  } else {
-    message.error(res.message)
-  }
-}
-
-// 获取标签和分类选项
-const getTagCategoryOptions = async () => {
-  const res = await listPictureTagCategoryUsingGet()
-  if (res.code === 0 && res.data) {
-    categoryOptions.value = (res.data.categoryList ?? []).map((data: string) => {
-      return {
-        label: data,
-        value: data,
-      }
-    })
-    tagOptions.value = (res.data.tagList ?? []).map((data: string) => {
-      return {
-        label: data,
-        value: data,
-      }
-    })
   } else {
     message.error(res.message)
   }
@@ -80,13 +57,56 @@ const getOldPicture = async () => {
       picture.value = data
       form.value.picName = data.picName
       form.value.introduction = data.introduction
-      form.value.category = data.category
-      form.value.tagList = data.tagList
+      // 处理分类回显
+      const categoryOption = categoryOptions.value.find((item: any) => item.label === data.category)
+      if (categoryOption) {
+        form.value.categoryId = categoryOption.value
+      }
+      // 处理标签回显
+      const tagIds: number[] = []
+      data.tagList.forEach((item: any) => {
+        const tagOption = tagOptions.value.find((tag: any) => tag.label === item)
+        if (tagOption) {
+          tagIds.push(tagOption.value)
+        }
+      })
+      form.value.tagIdList = tagIds
     }
   }
 }
 
-onMounted(() => getTagCategoryOptions())
+// 获取分类列表
+const getCategoryList = async () => {
+  const res = await listCategoryUsingGet()
+  if (res.code === 0 && res.data) {
+    categoryOptions.value = res.data.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      }
+    })
+  } else {
+    message.error(res.message)
+  }
+}
+
+// 获取标签列表
+const getTagList = async () => {
+  const res = await listTagUsingGet()
+  if (res.code === 0 && res.data) {
+    tagOptions.value = res.data.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      }
+    })
+  } else {
+    message.error(res.message)
+  }
+}
+
+onMounted(() => getCategoryList())
+onMounted(() => getTagList())
 onMounted(() => getOldPicture())
 </script>
 
@@ -119,17 +139,17 @@ onMounted(() => getOldPicture())
           allowClear
         />
       </a-form-item>
-      <a-form-item label="分类" name="category">
-        <a-auto-complete
-          v-model:value="form.category"
+      <a-form-item label="分类" name="categoryId">
+        <a-select
+          v-model:value="form.categoryId"
           :options="categoryOptions"
           placeholder="请输入分类"
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="标签" name="tagList">
+      <a-form-item label="标签" name="tagIdList">
         <a-select
-          v-model:value="form.tagList"
+          v-model:value="form.tagIdList"
           :options="tagOptions"
           mode="tags"
           placeholder="请输入标签"

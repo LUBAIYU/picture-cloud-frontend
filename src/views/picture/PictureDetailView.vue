@@ -21,7 +21,7 @@ const picture = ref<API.PictureVo>({})
 const fetchPictureDetail = async () => {
   try {
     const res = await getPictureVoByIdUsingGet({
-      picId: props.id as number,
+      picId: props.id,
     })
     if (res.code === 0 && res.data) {
       picture.value = res.data as API.PictureVo
@@ -64,7 +64,7 @@ const doDelete = async () => {
     return
   }
   const res = await deletePictureByIdUsingDelete({
-    picId: Number(id),
+    picId: id,
   })
   if (res.code === 0) {
     message.success('删除成功')
