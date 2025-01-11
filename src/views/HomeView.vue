@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import {
   listPictureTagCategoryUsingGet,
-  queryPictureVoByPageWithCacheUsingPost,
+  queryPictureVoByPageUsingPost,
 } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -57,7 +57,7 @@ const loadData = async () => {
   })
 
   // 查询数据
-  const res = await queryPictureVoByPageWithCacheUsingPost(params)
+  const res = await queryPictureVoByPageUsingPost(params)
   if (res.code === 0 && res.data) {
     dataList.value = res.data.records
     total.value = res.data.total
@@ -138,7 +138,7 @@ onMounted(() => getCategoryTagList())
           <!-- 单张图片 -->
           <a-card hoverable @click="doPictureClick(picture)">
             <template #cover>
-              <a-image placeholder :src="picture.picUrl" height="180px" />
+              <a-image placeholder :src="picture.thumbnailUrl ?? picture.picUrl" height="180px" />
             </template>
             <a-card-meta :title="picture.picName">
               <template #description>

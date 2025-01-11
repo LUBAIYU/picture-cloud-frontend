@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('@/views/admin/PictureManageView.vue'),
     },
     {
+      path: '/admin/spaceManage',
+      name: '空间管理',
+      component: () => import('@/views/admin/SpaceManageView.vue'),
+    },
+    {
       path: '/picture/add',
       name: '创建图片',
       component: () => import('@/views/picture/PictureAddView.vue'),
