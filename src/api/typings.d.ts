@@ -23,6 +23,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListSpaceLevelVo_ = {
+    code?: number
+    data?: SpaceLevelVo[]
+    message?: string
+  }
+
   type BaseResponseListTagListVo_ = {
     code?: number
     data?: TagListVo[]
@@ -416,6 +422,17 @@ declare namespace API {
     id?: number
     /** 空间名称 */
     spaceName?: string
+  }
+
+  type SpaceLevelVo = {
+    /** 最大条数 */
+    maxCount?: number
+    /** 最大容量 */
+    maxSize?: number
+    /** 空间级别 */
+    text?: string
+    /** 索引值 */
+    value?: number
   }
 
   type SpacePageDto = {

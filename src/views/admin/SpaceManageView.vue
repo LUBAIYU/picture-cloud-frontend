@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { deleteSpaceByIdUsingDelete, querySpaceByPageUsingPost } from '@/api/spaceController.ts'
+import { deleteSpaceByIdUsingDelete, querySpaceByPageUsingPost } from '@/api/kongjianmokuai.ts'
 import { SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS } from '@/constants/space.ts'
 import { formatSize } from '../../utils'
 

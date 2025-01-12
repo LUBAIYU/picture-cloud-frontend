@@ -39,6 +39,11 @@ const router = createRouter({
       component: () => import('@/views/picture/PictureAddView.vue'),
     },
     {
+      path: '/space/add',
+      name: '创建空间',
+      component: () => import('@/views/space/SpaceAddView.vue'),
+    },
+    {
       path: '/picture/batch/add',
       name: '批量创建图片',
       component: () => import('@/views/picture/PictureBatchAddView.vue'),
