@@ -22,11 +22,13 @@ const form = ref<API.PictureUpdateDto>({})
 const categoryOptions = ref([])
 const tagOptions = ref([])
 const uploadType = ref<'file' | 'url'>('file')
+const loading = ref(false)
 
 /**
  * 提交表单
  */
 const handleSubmit = async (values: any) => {
+  loading.value = true
   const pictureId = picture.value?.picId
   if (!pictureId) {
     return
@@ -36,12 +38,14 @@ const handleSubmit = async (values: any) => {
     ...values,
   })
   if (res.code === 0 && res.data) {
-    message.success('创建成功')
+    const successMsg = route.query?.id ? '修改成功' : '创建成功'
+    message.success(successMsg)
     // 跳转到图片详情页
     await router.push(`/picture/detail/${pictureId}`)
   } else {
     message.error(res.message)
   }
+  loading.value = false
 }
 
 // 获取旧数据
@@ -157,7 +161,9 @@ onMounted(() => getOldPicture())
         />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 100%">创建</a-button>
+        <a-button type="primary" html-type="submit" style="width: 100%" :loading="loading">
+          提交
+        </a-button>
       </a-form-item>
     </a-form>
   </div>

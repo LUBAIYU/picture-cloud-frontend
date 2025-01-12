@@ -7,6 +7,7 @@ import {
   createSpaceUsingPost,
   getSpaceVoByIdUsingGet,
   listSpaceLevelUsingGet,
+  updateSpaceByIdUsingPut,
 } from '@/api/kongjianmokuai.ts'
 import { formatSize } from '../../utils'
 
@@ -14,7 +15,8 @@ const route = useRoute()
 const router = useRouter()
 
 const loading = ref(false)
-const form = ref<API.SpaceCreateDto>({})
+const space = ref<API.SpaceVo>({})
+const form = ref<API.SpaceCreateDto | API.SpaceUpdateDto>({})
 const spaceLevelList = ref<API.SpaceLevelVo[]>([])
 
 /**
@@ -34,11 +36,22 @@ const getSpaceLevelList = async () => {
  */
 const handleSubmit = async () => {
   loading.value = true
-  const res = await createSpaceUsingPost({
-    ...form.value,
-  })
+  const spaceId = space.value.id
+  let res
+  if (spaceId) {
+    // 更新操作
+    res = await updateSpaceByIdUsingPut({
+      id: spaceId,
+      ...form.value,
+    })
+  } else {
+    // 创建操作
+    res = await createSpaceUsingPost({
+      ...form.value,
+    })
+  }
   if (res.code === 0 && res.data) {
-    message.success('创建成功')
+    message.success('操作成功')
     // 跳转到空间详情页
     await router.push(`/space/detail/${res.data}`)
   } else {
@@ -56,7 +69,11 @@ const getOldSpace = async () => {
       id: id,
     })
     if (res.code === 0 && res.data) {
-      form.value = res.data as any
+      space.value = res.data as any
+      form.value = {
+        spaceName: space.value.spaceName,
+        spaceLevel: space.value.spaceLevel,
+      }
     } else {
       message.error(res.message)
     }
@@ -87,7 +104,7 @@ onMounted(() => getSpaceLevelList())
       </a-form-item>
       <a-form-item>
         <a-button type="primary" html-type="submit" style="width: 100%" :loading="loading">
-          创建
+          提交
         </a-button>
       </a-form-item>
     </a-form>
