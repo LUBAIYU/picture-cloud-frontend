@@ -54,6 +54,17 @@ const router = createRouter({
       component: () => import('@/views/picture/PictureDetailView.vue'),
       props: true,
     },
+    {
+      path: '/space/detail/:id',
+      name: '空间详情',
+      component: () => import('@/views/space/SpaceDetailView.vue'),
+      props: true,
+    },
+    {
+      path: '/space/my',
+      name: '我的空间',
+      component: () => import('@/views/space/SpaceMyView.vue'),
+    },
   ],
 })
 

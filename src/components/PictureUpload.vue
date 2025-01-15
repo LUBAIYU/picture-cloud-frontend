@@ -7,6 +7,7 @@ import { uploadPictureUsingPost } from '@/api/tupianmokuai.ts'
 
 interface Props {
   picture?: API.PictureVo
+  spaceId?: number
   onSuccess?: (newPicture: API.PictureVo) => void
 }
 
@@ -30,7 +31,8 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
 const handleUpload = async ({ file }: any) => {
   loading.value = true
   try {
-    const params = props.picture ? { id: props.picture.picId } : {}
+    const params: API.PictureUploadDto = props.picture ? { id: props.picture.picId } : {}
+    params.spaceId = props.spaceId
     const res = await uploadPictureUsingPost(params, {}, file)
     if (res.code === 0 && res.data) {
       message.success('图片上传成功')
@@ -55,7 +57,12 @@ const handleUpload = async ({ file }: any) => {
       :before-upload="beforeUpload"
       :custom-request="handleUpload"
     >
-      <img v-if="picture?.picUrl" :src="picture?.picUrl" alt="avatar" />
+      <img
+        v-if="picture?.picUrl"
+        :src="picture?.picUrl"
+        style="width: 100%; height: 100%"
+        alt="avatar"
+      />
       <div v-else>
         <loading-outlined v-if="loading"></loading-outlined>
         <plus-outlined v-else></plus-outlined>

@@ -5,6 +5,7 @@ import { message } from 'ant-design-vue'
 
 interface Props {
   picture?: API.PictureVo
+  spaceId?: number
   onSuccess?: (newPicture: API.PictureVo) => void
 }
 
@@ -20,6 +21,7 @@ const handleUpload = async () => {
     const params: API.PictureUploadDto = {
       fileUrl: fileUrl.value,
     }
+    params.spaceId = props.spaceId
     if (props.picture) {
       params.picId = props.picture.picId
     }
@@ -48,7 +50,12 @@ const handleUpload = async () => {
       </a-button>
     </a-input-group>
     <div class="img-wrapper">
-      <img v-if="picture?.picUrl" :src="picture?.picUrl" alt="avatar" />
+      <img
+        v-if="picture?.picUrl"
+        :src="picture?.picUrl"
+        alt="avatar"
+        style="width: 100%; height: 100%"
+      />
     </div>
   </div>
 </template>

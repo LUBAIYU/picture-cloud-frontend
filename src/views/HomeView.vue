@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import {
   listPictureTagCategoryUsingGet,
   queryPictureVoByPageUsingPost,
 } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
+import PictureList from '@/components/PictureList.vue'
 
 const dataList = ref<API.PictureVo[]>([])
 const total = ref<number>(0)
@@ -24,19 +22,11 @@ const searchParams = ref<API.PicturePageDto>({
   pageSize: 12,
 })
 
-// 分页参数
-const pagination = computed(() => {
-  return {
-    current: searchParams.value.current ?? 1,
-    pageSize: searchParams.value.pageSize ?? 12,
-    total: total.value,
-    onChange: (page: number, pageSize: number) => {
-      searchParams.value.current = page
-      searchParams.value.pageSize = pageSize
-      loadData()
-    },
-  }
-})
+const doPageChange = (page: number, pageSize: number) => {
+  searchParams.value.current = page
+  searchParams.value.pageSize = pageSize
+  loadData()
+}
 
 // 加载数据
 const loadData = async () => {
@@ -85,13 +75,6 @@ const getCategoryTagList = async () => {
   }
 }
 
-// 跳转到图片详情页
-const doPictureClick = (picture: API.PictureVo) => {
-  router.push({
-    path: `/picture/detail/${picture.picId}`,
-  })
-}
-
 onMounted(() => loadData())
 onMounted(() => getCategoryTagList())
 </script>
@@ -127,33 +110,14 @@ onMounted(() => getCategoryTagList())
       </a-space>
     </div>
     <!-- 图片列表 -->
-    <a-list
-      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
-      :data-source="dataList"
-      :pagination="pagination"
-      :loading="loading"
-    >
-      <template #renderItem="{ item: picture }">
-        <a-list-item style="padding: 0">
-          <!-- 单张图片 -->
-          <a-card hoverable @click="doPictureClick(picture)">
-            <template #cover>
-              <a-image placeholder :src="picture.thumbnailUrl ?? picture.picUrl" height="180px" />
-            </template>
-            <a-card-meta :title="picture.picName">
-              <template #description>
-                <a-flex>
-                  <a-tag color="green">{{ picture.category ?? '默认' }}</a-tag>
-                  <a-tag v-for="tag in picture.tagList" :key="tag">
-                    {{ tag }}
-                  </a-tag>
-                </a-flex>
-              </template>
-            </a-card-meta>
-          </a-card>
-        </a-list-item>
-      </template>
-    </a-list>
+    <picture-list :data-list="dataList" :loading="loading" />
+    <a-pagination
+      style="text-align: right"
+      v-model:current="searchParams.current"
+      v-model:page-size="searchParams.pageSize"
+      :total="total"
+      @change="doPageChange"
+    />
   </div>
 </template>
 

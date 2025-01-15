@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getPictureVoByIdUsingGet, updatePictureUsingPut } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
@@ -24,6 +24,10 @@ const tagOptions = ref([])
 const uploadType = ref<'file' | 'url'>('file')
 const loading = ref(false)
 
+const spaceId = computed(() => {
+  return route.query?.spaceId
+})
+
 /**
  * 提交表单
  */
@@ -35,6 +39,7 @@ const handleSubmit = async (values: any) => {
   }
   const res = await updatePictureUsingPut({
     picId: pictureId,
+    spaceId: spaceId.value,
     ...values,
   })
   if (res.code === 0 && res.data) {
@@ -119,15 +124,18 @@ onMounted(() => getOldPicture())
     <h2 style="margin-bottom: 16px">
       {{ route.query?.id ? '修改图片' : '创建图片' }}
     </h2>
+    <a-typography-paragraph v-if="spaceId" type="secondary">
+      保存至空间：<a :href="`/space/detail/${spaceId}`" target="_blank">{{ spaceId }}</a>
+    </a-typography-paragraph>
     <!-- 选择上传方式 -->
     <a-tabs v-model:active-key="uploadType">
       <a-tab-pane key="file" tab="文件上传">
         <!-- 图片上传组件 -->
-        <PictureUpload :picture="picture" :on-success="onSuccess" />
+        <PictureUpload :picture="picture" :spaceId="spaceId" :on-success="onSuccess" />
       </a-tab-pane>
       <a-tab-pane key="url" tab="URL上传" force-render>
         <!-- URL上传组件 -->
-        <UrlPictureUpload :picture="picture" :on-success="onSuccess" />
+        <UrlPictureUpload :picture="picture" :spaceId="spaceId" :on-success="onSuccess" />
       </a-tab-pane>
     </a-tabs>
     <a-form v-if="picture" layout="vertical" :model="form" @finish="handleSubmit">

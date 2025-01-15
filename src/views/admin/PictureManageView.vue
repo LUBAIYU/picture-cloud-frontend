@@ -103,6 +103,7 @@ const pagination = computed(() => {
 const loadData = async () => {
   const res = await queryPictureByPageUsingPost({
     ...searchParams.value,
+    nullSpaceId: true,
   })
   if (res.code === 0 && res.data) {
     tableData.value = res.data.records

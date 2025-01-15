@@ -342,6 +342,8 @@ declare namespace API {
     picId?: number
     /** 图片名称 */
     picName?: string
+    /** 空间ID */
+    spaceId?: number
     /** 标签ID列表 */
     tagIdList?: number[]
   }
