@@ -5,6 +5,7 @@ import { getSpaceVoByIdUsingGet } from '@/api/kongjianmokuai.ts'
 import { formatSize } from '@/utils'
 import { queryPictureVoByPageUsingPost } from '@/api/tupianmokuai.ts'
 import PictureList from '@/components/PictureList.vue'
+import PictureSearchForm from '@/components/PictureSearchForm.vue'
 
 interface Props {
   id: string | number
@@ -35,7 +36,7 @@ const fetchSpaceDetail = async () => {
 // 搜索条件
 const searchParams = ref<API.PicturePageDto>({
   current: 1,
-  pageSize: 12,
+  pageSize: 10,
 })
 
 const doPageChange = (page: number, pageSize: number) => {
@@ -62,9 +63,13 @@ const loadData = async () => {
 }
 
 // 搜索
-const doSearch = () => {
-  // 重置搜索条件
-  searchParams.value.current = 1
+const doSearch = (newSearchParams: API.PicturePageDto) => {
+  searchParams.value = {
+    ...searchParams.value,
+    ...newSearchParams,
+    current: 1,
+    pageSize: 10,
+  }
   loadData()
 }
 
@@ -93,6 +98,8 @@ onMounted(() => loadData())
       </a-space>
     </a-flex>
     <div style="margin-bottom: 16px" />
+    <!-- 搜索表单 -->
+    <PictureSearchForm :on-search="doSearch" />
     <!-- 图片列表 -->
     <picture-list :data-list="dataList" :loading="loading" :show-op="true" :on-reload="loadData" />
     <a-pagination

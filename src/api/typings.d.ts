@@ -297,12 +297,16 @@ declare namespace API {
     category?: string
     /** 当前页码 */
     current?: number
+    /** 结束编辑时间 */
+    endEditTime?: string
     /** 简介 */
     introduction?: string
     /** 是否只查询 spaceId 为 null 的数据 */
     nullSpaceId?: boolean
     /** 页面大小 */
     pageSize?: number
+    /** 图片格式 */
+    picFormat?: string
     /** 图片名称 */
     picName?: string
     /** 审核信息 */
@@ -313,6 +317,8 @@ declare namespace API {
     searchText?: string
     /** 空间ID */
     spaceId?: number
+    /** 开始编辑时间 */
+    startEditTime?: string
     /** 标签列表 */
     tagList?: string[]
   }
