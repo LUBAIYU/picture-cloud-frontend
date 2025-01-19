@@ -23,6 +23,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListImageSearchResult_ = {
+    code?: number
+    data?: ImageSearchResult[]
+    message?: string
+  }
+
   type BaseResponseListSpaceLevelVo_ = {
     code?: number
     data?: SpaceLevelVo[]
@@ -223,6 +229,11 @@ declare namespace API {
     id: number
   }
 
+  type ImageSearchResult = {
+    fromUrl?: string
+    thumbUrl?: string
+  }
+
   type PageResultPicture_ = {
     /** 记录数据 */
     records?: Picture[]
@@ -330,6 +341,11 @@ declare namespace API {
     reviewMessage?: string
     /** 审核状态：0-待审核；1-通过；2-拒绝 */
     reviewStatus?: number
+  }
+
+  type PictureSearchByPictureDto = {
+    /** 图片ID */
+    pictureId?: number
   }
 
   type PictureTagCategoryVo = {

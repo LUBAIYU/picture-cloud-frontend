@@ -91,6 +91,21 @@ export async function doPictureReviewUsingPost(
   })
 }
 
+/** 以图搜图 POST /api/picture/search */
+export async function searchPictureByPictureUsingPost(
+  body: API.PictureSearchByPictureDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListImageSearchResult_>('/api/picture/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 获取图片标签分类列表 GET /api/picture/tag_category */
 export async function listPictureTagCategoryUsingGet(options?: { [key: string]: any }) {
   return request<API.BaseResponsePictureTagCategoryVo_>('/api/picture/tag_category', {

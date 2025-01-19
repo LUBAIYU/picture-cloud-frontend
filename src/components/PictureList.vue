@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { deletePictureByIdUsingDelete } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 
@@ -57,6 +57,14 @@ const doDelete = async (picture: API.PictureVo, e: any) => {
     message.error(res.message)
   }
 }
+
+// 搜索
+const doSearch = (picture: API.PictureVo, e: any) => {
+  // 阻止事件冒泡
+  e.stopPropagation()
+  // 跳转到新页面
+  window.open(`/picture/search?pictureId=${picture.picId}`)
+}
 </script>
 
 <template>
@@ -85,6 +93,10 @@ const doDelete = async (picture: API.PictureVo, e: any) => {
               </template>
             </a-card-meta>
             <template v-if="showOp" #actions>
+              <a-space @click="(e: any) => doSearch(picture, e)">
+                <search-outlined key="search" />
+                搜索
+              </a-space>
               <a-space @click="(e: any) => doEdit(picture, e)">
                 <edit-outlined key="edit" />
                 编辑
