@@ -63,7 +63,12 @@ const doSearch = (picture: API.PictureVo, e: any) => {
   // 阻止事件冒泡
   e.stopPropagation()
   // 跳转到新页面
-  window.open(`/picture/search?pictureId=${picture.picId}`)
+  router.push({
+    path: '/picture/search',
+    query: {
+      pictureId: picture?.picId,
+    },
+  })
 }
 </script>
 

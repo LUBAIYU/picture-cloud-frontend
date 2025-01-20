@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore.ts'
 import emitter from '@/eventBus.ts'
+import { routes } from '@/router/routes.ts'
 
 const router = useRouter()
 
@@ -12,34 +12,39 @@ const userStore = useUserStore()
 
 // 当前选中菜单
 const current = ref<string[]>([])
-const items = ref<MenuProps['items']>([
-  {
-    key: '/',
-    icon: () => h(HomeOutlined),
-    label: '主页',
-    title: '主页',
-  },
-  {
-    key: '/admin/userManage',
-    label: '用户管理',
-    title: '用户管理',
-  },
-  {
-    key: '/picture/add',
-    label: '创建图片',
-    title: '创建图片',
-  },
-  {
-    key: '/admin/pictureManage',
-    label: '图片管理',
-    title: '图片管理',
-  },
-  {
-    key: '/admin/spaceManage',
-    label: '空间管理',
-    title: '空间管理',
-  },
-])
+
+// 根据路由和权限渲染菜单
+const menuItems = computed(() => {
+  return routes
+    .filter((item) => {
+      if (item?.meta?.hidden) {
+        return false
+      }
+      if (item.meta?.access && item.meta?.access === 'admin') {
+        const role = userStore.loginUser.userRole
+        if (role !== 0) {
+          return false
+        }
+      }
+      return true
+    })
+    .map((item) => {
+      if (item.name === '主页') {
+        return {
+          key: item.path,
+          icon: () => h(HomeOutlined),
+          label: item.name,
+          title: item.name,
+        }
+      } else {
+        return {
+          key: item.path,
+          label: item.name,
+          title: item.name,
+        }
+      }
+    })
+})
 
 const doMenuClick = ({ key }: { key: string }) => {
   router.push({
@@ -82,7 +87,7 @@ emitter.on('loginSuccess', () => {
         <a-menu
           v-model:selectedKeys="current"
           mode="horizontal"
-          :items="items"
+          :items="menuItems"
           @click="doMenuClick"
         />
       </a-col>

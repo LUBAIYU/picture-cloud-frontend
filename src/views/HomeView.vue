@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import {
   listPictureTagCategoryUsingGet,
-  queryPictureVoByPageUsingPost,
+  queryPictureVoByPageWithCacheUsingPost,
 } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 import PictureList from '@/components/PictureList.vue'
@@ -47,7 +47,7 @@ const loadData = async () => {
   })
 
   // 查询数据
-  const res = await queryPictureVoByPageUsingPost(params)
+  const res = await queryPictureVoByPageWithCacheUsingPost(params)
   if (res.code === 0 && res.data) {
     dataList.value = res.data.records
     total.value = res.data.total

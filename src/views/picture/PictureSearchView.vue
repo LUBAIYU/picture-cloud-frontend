@@ -58,10 +58,7 @@ onMounted(() => fetchImageSearchResult())
     <h3 style="margin-bottom: 16px">原图</h3>
     <a-card hoverable style="width: 240px">
       <template #cover>
-        <a-image
-          :src="picture.thumbnailUrl ?? picture.picUrl"
-          style="height: 180px; object-fit: contain"
-        />
+        <a-image :src="picture.thumbnailUrl ?? picture.picUrl" style="height: 180px" />
       </template>
     </a-card>
     <h3 style="margin: 16px 0">识图结果</h3>
@@ -77,12 +74,7 @@ onMounted(() => fetchImageSearchResult())
           <a :href="picture.fromUrl" target="_blank">
             <a-card hoverable>
               <template #cover>
-                <a-image
-                  placeholder
-                  :src="picture.thumbUrl"
-                  height="180px"
-                  style="object-fit: contain"
-                />
+                <a-image placeholder :src="picture.thumbUrl" height="180px" />
               </template>
             </a-card>
           </a>
