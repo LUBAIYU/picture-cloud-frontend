@@ -51,6 +51,21 @@ export async function listTagUsingGet(options?: { [key: string]: any }) {
   })
 }
 
+/** 分页查询标签 POST /api/tag/page */
+export async function listTagByPageUsingPost(
+  body: API.TagPageDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageResultTag_>('/api/tag/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 修改标签名称 PUT /api/tag/update */
 export async function updateTagByIdUsingPut(
   body: API.TagUpdateDto,

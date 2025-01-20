@@ -47,6 +47,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponsePageResultCategory_ = {
+    code?: number
+    data?: PageResultCategory_
+    message?: string
+  }
+
   type BaseResponsePageResultPicture_ = {
     code?: number
     data?: PageResultPicture_
@@ -68,6 +74,12 @@ declare namespace API {
   type BaseResponsePageResultSpaceVo_ = {
     code?: number
     data?: PageResultSpaceVo_
+    message?: string
+  }
+
+  type BaseResponsePageResultTag_ = {
+    code?: number
+    data?: PageResultTag_
     message?: string
   }
 
@@ -152,6 +164,15 @@ declare namespace API {
     name?: string
   }
 
+  type CategoryPageDto = {
+    /** 当前页码 */
+    current?: number
+    /** 分类名称 */
+    name?: string
+    /** 页面大小 */
+    pageSize?: number
+  }
+
   type CategoryUpdateDto = {
     /** 主键ID */
     id?: number
@@ -234,6 +255,13 @@ declare namespace API {
     thumbUrl?: string
   }
 
+  type PageResultCategory_ = {
+    /** 记录数据 */
+    records?: Category[]
+    /** 总记录数 */
+    total?: number
+  }
+
   type PageResultPicture_ = {
     /** 记录数据 */
     records?: Picture[]
@@ -262,6 +290,13 @@ declare namespace API {
     total?: number
   }
 
+  type PageResultTag_ = {
+    /** 记录数据 */
+    records?: Tag[]
+    /** 总记录数 */
+    total?: number
+  }
+
   type PageResultUserVo_ = {
     /** 记录数据 */
     records?: UserVo[]
@@ -283,6 +318,7 @@ declare namespace API {
     picSize?: number
     picUrl?: string
     picWidth?: number
+    rawUrl?: string
     reviewMessage?: string
     reviewStatus?: number
     reviewTime?: string
@@ -406,6 +442,8 @@ declare namespace API {
     picUrl?: string
     /** 图片宽度 */
     picWidth?: number
+    /** 未转为 webp 格式的原始图片 url */
+    rawUrl?: string
     /** 空间 id（为空表示公共空间） */
     spaceId?: number
     /** 标签（列表） */
@@ -527,6 +565,15 @@ declare namespace API {
     name?: string
   }
 
+  type TagPageDto = {
+    /** 当前页码 */
+    current?: number
+    /** 标签名称 */
+    name?: string
+    /** 页面大小 */
+    pageSize?: number
+  }
+
   type TagUpdateDto = {
     /** 主键ID */
     id?: number
@@ -619,6 +666,8 @@ declare namespace API {
   type UserVo = {
     /** 创建时间 */
     createTime?: string
+    /** 更新时间 */
+    updateTime?: string
     /** 账号 */
     userAccount?: string
     /** 用户头像 */

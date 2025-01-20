@@ -47,6 +47,22 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     },
   },
   {
+    path: '/admin/categoryManage',
+    name: '分类管理',
+    component: () => import('@/views/admin/CategoryManageView.vue'),
+    meta: {
+      access: 'admin',
+    },
+  },
+  {
+    path: '/admin/tagManage',
+    name: '标签管理',
+    component: () => import('@/views/admin/TagManageView.vue'),
+    meta: {
+      access: 'admin',
+    },
+  },
+  {
     path: '/picture/add',
     name: '创建图片',
     component: () => import('@/views/picture/PictureAddView.vue'),

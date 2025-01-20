@@ -51,6 +51,21 @@ export async function listCategoryUsingGet(options?: { [key: string]: any }) {
   })
 }
 
+/** 分页查询分类 POST /api/category/page */
+export async function listCategoryByPageUsingPost(
+  body: API.CategoryPageDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageResultCategory_>('/api/category/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 修改分类名称 PUT /api/category/update */
 export async function updateCategoryByIdUsingPut(
   body: API.CategoryUpdateDto,
