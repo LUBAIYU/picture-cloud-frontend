@@ -3,9 +3,11 @@ import { onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceVoByIdUsingGet } from '@/api/kongjianmokuai.ts'
 import { formatSize } from '@/utils'
-import { queryPictureVoByPageUsingPost } from '@/api/tupianmokuai.ts'
+import { queryPictureVoByPageUsingPost, searchPictureByColorUsingPost } from '@/api/tupianmokuai.ts'
 import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
+import { ColorPicker } from 'vue3-colorpicker'
+import 'vue3-colorpicker/style.css'
 
 interface Props {
   id: string | number
@@ -73,6 +75,22 @@ const doSearch = (newSearchParams: API.PicturePageDto) => {
   loadData()
 }
 
+// 颜色变化时触发
+const onColorChange = async (color: string) => {
+  loading.value = true
+  const res = await searchPictureByColorUsingPost({
+    spaceId: props.id as any,
+    picColor: color,
+  })
+  if (res.code === 0 && res.data) {
+    dataList.value = res.data as API.PictureVo[]
+    total.value = res.data?.length
+  } else {
+    message.error(res.message)
+  }
+  loading.value = false
+}
+
 onMounted(() => fetchSpaceDetail())
 onMounted(() => loadData())
 </script>
@@ -100,6 +118,10 @@ onMounted(() => loadData())
     <div style="margin-bottom: 16px" />
     <!-- 搜索表单 -->
     <PictureSearchForm :on-search="doSearch" />
+    <!-- 跟其他搜索条件独立 -->
+    <a-form-item label="按颜色搜索">
+      <color-picker format="hex" @pureColorChange="onColorChange" />
+    </a-form-item>
     <!-- 图片列表 -->
     <picture-list :data-list="dataList" :loading="loading" :show-op="true" :on-reload="loadData" />
     <a-pagination

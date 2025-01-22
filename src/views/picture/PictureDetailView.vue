@@ -3,7 +3,7 @@ import { computed, h, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { DeleteOutlined, EditOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { deletePictureByIdUsingDelete, getPictureVoByIdUsingGet } from '@/api/tupianmokuai.ts'
-import { downloadImage, formatSize } from '../../utils'
+import { downloadImage, formatSize, toHexColor } from '../../utils'
 import { useUserStore } from '@/stores/userStore.ts'
 import { useRouter } from 'vue-router'
 
@@ -129,6 +129,19 @@ onMounted(() => fetchPictureDetail())
             </a-descriptions-item>
             <a-descriptions-item label="大小">
               {{ formatSize(picture.picSize) ?? '-' }}
+            </a-descriptions-item>
+            <a-descriptions-item label="主色调">
+              <a-space>
+                {{ picture.picColor ?? '-' }}
+                <div
+                  v-if="picture.picColor"
+                  :style="{
+                    width: '16px',
+                    height: '16px',
+                    backgroundColor: toHexColor(picture.picColor),
+                  }"
+                />
+              </a-space>
             </a-descriptions-item>
           </a-descriptions>
           <!-- 图片操作 -->

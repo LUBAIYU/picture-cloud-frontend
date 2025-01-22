@@ -29,6 +29,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListPictureVo_ = {
+    code?: number
+    data?: PictureVo[]
+    message?: string
+  }
+
   type BaseResponseListSpaceLevelVo_ = {
     code?: number
     data?: SpaceLevelVo[]
@@ -310,6 +316,7 @@ declare namespace API {
     editTime?: string
     introduction?: string
     isDelete?: number
+    picColor?: string
     picFormat?: string
     picHeight?: number
     picId?: number
@@ -379,6 +386,13 @@ declare namespace API {
     reviewStatus?: number
   }
 
+  type PictureSearchByColorDto = {
+    /** 图片主色调 */
+    picColor?: string
+    /** 空间ID */
+    spaceId?: number
+  }
+
   type PictureSearchByPictureDto = {
     /** 图片ID */
     pictureId?: number
@@ -426,6 +440,8 @@ declare namespace API {
     editTime?: string
     /** 简介 */
     introduction?: string
+    /** 图片主色调 */
+    picColor?: string
     /** 图片格式 */
     picFormat?: string
     /** 图片高度 */

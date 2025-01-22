@@ -91,12 +91,27 @@ export async function doPictureReviewUsingPost(
   })
 }
 
-/** 以图搜图 POST /api/picture/search */
+/** 根据颜色搜索图片 POST /api/picture/search/byColor */
+export async function searchPictureByColorUsingPost(
+  body: API.PictureSearchByColorDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListPictureVo_>('/api/picture/search/byColor', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
+/** 以图搜图 POST /api/picture/search/byPicture */
 export async function searchPictureByPictureUsingPost(
   body: API.PictureSearchByPictureDto,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseListImageSearchResult_>('/api/picture/search', {
+  return request<API.BaseResponseListImageSearchResult_>('/api/picture/search/byPicture', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
