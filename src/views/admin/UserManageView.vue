@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { deleteUserByIdsUsingDelete, pageUsersUsingPost } from '@/api/yonghumokuai.ts'
 import { message } from 'ant-design-vue'
+import UserDetailView from '@/views/user/UserDetailView.vue'
 
 const columns = [
   {
@@ -60,6 +61,16 @@ const searchParams = ref<API.UserPageDto>({
   current: 1,
   pageSize: 10,
 })
+
+// 模态框控制器
+const modalOpen = ref<boolean>(false)
+// ref对象
+const userDetailRef = ref()
+
+// 关闭模态框
+const closeModal = () => {
+  modalOpen.value = false
+}
 
 // 分页参数
 const pagination = computed(() => {
@@ -123,6 +134,12 @@ const doDelete = async (id: string) => {
   }
 }
 
+// 编辑
+const doEdit = (id: number) => {
+  modalOpen.value = true
+  userDetailRef.value.getUserInfo(id)
+}
+
 onMounted(() => loadData())
 </script>
 
@@ -161,17 +178,24 @@ onMounted(() => loadData())
           </div>
         </template>
         <template v-if="column.key === 'action'">
+          <a-button type="link" @click="doEdit(record.userId)"> 编辑</a-button>
           <a-popconfirm
             title="确定删除这条记录吗？"
             ok-text="确定"
             cancel-text="取消"
             @confirm="doDelete(record.userId)"
           >
-            <a-button danger>删除</a-button>
+            <a-button type="link" danger>删除</a-button>
           </a-popconfirm>
         </template>
       </template>
     </a-table>
+    <user-detail-view
+      ref="userDetailRef"
+      :is-open="modalOpen"
+      :close-modal="closeModal"
+      :refresh-data="loadData"
+    />
   </div>
 </template>
 
