@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { computed, h, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { DeleteOutlined, EditOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons-vue'
 import { deletePictureByIdUsingDelete, getPictureVoByIdUsingGet } from '@/api/tupianmokuai.ts'
 import { downloadImage, formatSize, toHexColor } from '../../utils'
 import { useUserStore } from '@/stores/userStore.ts'
 import { useRouter } from 'vue-router'
+import ShareModal from '@/components/ShareModal.vue'
 
 interface Props {
   id: string | number
@@ -80,6 +86,18 @@ const doDownload = () => {
 }
 
 onMounted(() => fetchPictureDetail())
+
+// 分享操作
+const shareModalRef = ref(null)
+const shareLink = ref<string>()
+
+// 分享函数
+const doShare = () => {
+  shareLink.value = `${window.location.protocol}//${window.location.host}/picture/detail/${picture.value.picId}`
+  if (shareModalRef.value) {
+    shareModalRef.value.openModal()
+  }
+}
 </script>
 
 <template>
@@ -152,6 +170,9 @@ onMounted(() => fetchPictureDetail())
                 <DownloadOutlined />
               </template>
             </a-button>
+            <a-button :icon="h(ShareAltOutlined)" type="primary" ghost @click="doShare">
+              分享
+            </a-button>
             <a-button v-if="canEdit" :icon="h(EditOutlined)" type="default" @click="doEdit">
               编辑
             </a-button>
@@ -162,6 +183,7 @@ onMounted(() => fetchPictureDetail())
         </a-card>
       </a-col>
     </a-row>
+    <share-modal ref="shareModalRef" :link="shareLink" />
   </div>
 </template>
 
