@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, h, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getPictureVoByIdUsingGet, updatePictureUsingPut } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
 import { listCategoryUsingGet } from '@/api/fenleimokuai.ts'
 import { listTagUsingGet } from '@/api/biaoqianmokuai.ts'
+import { EditOutlined } from '@ant-design/icons-vue'
+import ImageCropper from '@/components/ImageCropper.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -114,6 +116,19 @@ const getTagList = async () => {
   }
 }
 
+// ----- 编辑图片 -------
+const imageCropperRef = ref(null)
+
+const doEditPicture = () => {
+  if (imageCropperRef.value) {
+    imageCropperRef.value.openModal()
+  }
+}
+
+const onCropperSuccess = (newPicture: API.PictureVo) => {
+  picture.value = newPicture
+}
+
 onMounted(() => getCategoryList())
 onMounted(() => getTagList())
 onMounted(() => getOldPicture())
@@ -138,6 +153,17 @@ onMounted(() => getOldPicture())
         <UrlPictureUpload :picture="picture" :spaceId="spaceId" :on-success="onSuccess" />
       </a-tab-pane>
     </a-tabs>
+    <!-- 图片编辑 -->
+    <div v-if="picture" class="edit-bar">
+      <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+      <image-cropper
+        ref="imageCropperRef"
+        :picture="picture"
+        :image-url="picture?.picUrl"
+        :space-id="spaceId"
+        :on-success="onCropperSuccess"
+      />
+    </div>
     <a-form v-if="picture" layout="vertical" :model="form" @finish="handleSubmit">
       <a-form-item label="名称" name="picName">
         <a-input v-model:value="form.picName" placeholder="请输入名称" />
@@ -181,5 +207,10 @@ onMounted(() => getOldPicture())
 #pictureAddView {
   max-width: 720px;
   margin: 0 auto;
+}
+
+#pictureAddView .edit-bar {
+  text-align: center;
+  margin: 16px 0;
 }
 </style>

@@ -31,7 +31,7 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
 const handleUpload = async ({ file }: any) => {
   loading.value = true
   try {
-    const params: API.PictureUploadDto = props.picture ? { id: props.picture.picId } : {}
+    const params: API.PictureUploadDto = props.picture ? { picId: props.picture.picId } : {}
     params.spaceId = props.spaceId
     const res = await uploadPictureUsingPost(params, {}, file)
     if (res.code === 0 && res.data) {
