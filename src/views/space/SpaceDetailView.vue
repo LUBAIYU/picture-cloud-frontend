@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceVoByIdUsingGet } from '@/api/kongjianmokuai.ts'
 import { formatSize } from '@/utils'
@@ -8,6 +8,8 @@ import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
+import { EditOutlined } from '@ant-design/icons-vue'
+import PictureBatchEditModal from '@/components/PictureBatchEditModal.vue'
 
 interface Props {
   id: string | number
@@ -91,6 +93,17 @@ const onColorChange = async (color: string) => {
   loading.value = false
 }
 
+//---- 批量编辑 ----
+const isOpen = ref<boolean>(false)
+const closeModal = () => {
+  isOpen.value = false
+}
+
+// 批量编辑
+const doBatchEdit = () => {
+  isOpen.value = true
+}
+
 onMounted(() => fetchSpaceDetail())
 onMounted(() => loadData())
 </script>
@@ -104,6 +117,7 @@ onMounted(() => loadData())
         <a-button type="primary" :href="`/picture/add?spaceId=${id}`" target="_blank">
           + 创建图片
         </a-button>
+        <a-button :icon="h(EditOutlined)" @click="doBatchEdit"> 批量编辑</a-button>
         <a-tooltip
           :title="`占用空间 ${formatSize(space.totalSize)} / ${formatSize(space.maxSize)}`"
         >
@@ -130,6 +144,13 @@ onMounted(() => loadData())
       v-model:page-size="searchParams.pageSize"
       :total="total"
       @change="doPageChange"
+    />
+    <picture-batch-edit-modal
+      :is-open="isOpen"
+      :picture-list="dataList"
+      :space-id="id"
+      :close-modal="closeModal"
+      :on-success="loadData"
     />
   </div>
 </template>

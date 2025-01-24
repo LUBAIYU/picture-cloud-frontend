@@ -5,6 +5,7 @@ import {
   deletePictureByIdUsingDelete,
   doPictureReviewUsingPost,
   queryPictureByPageUsingPost,
+  queryPictureVoByPageUsingPost,
 } from '@/api/tupianmokuai.ts'
 import {
   PIC_REVIEW_STATUS_ENUM,
@@ -43,7 +44,7 @@ const columns = [
   },
   {
     title: '标签',
-    dataIndex: 'tags',
+    dataIndex: 'tagList',
     align: 'center',
   },
   {
@@ -230,15 +231,16 @@ onMounted(() => loadData())
       :data-source="tableData"
       :columns="columns"
       :pagination="pagination"
+      :scroll="{ x: 2000 }"
       @change="doTableChange"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'picUrl'">
           <a-image :src="record.picUrl" :width="60" />
         </template>
-        <template v-if="column.dataIndex === 'tags'">
+        <template v-if="column.dataIndex === 'tagList'">
           <a-space wrap>
-            <a-tag v-for="tag in JSON.parse(record.tags || '[]')" :key="tag">
+            <a-tag color="green" v-for="tag in record.tagList" :key="tag">
               {{ tag }}
             </a-tag>
           </a-space>

@@ -46,6 +46,21 @@ export async function deletePictureByIdUsingDelete(
   })
 }
 
+/** 批量更新图片信息 PUT /api/picture/edit/byBatch */
+export async function editPictureByBatchUsingPut(
+  body: API.PictureEditByBatchDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/api/picture/edit/byBatch', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 根据ID获取图片（仅管理员） GET /api/picture/get */
 export async function getPictureByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -66,7 +81,7 @@ export async function queryPictureByPageUsingPost(
   body: API.PicturePageDto,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePageResultPicture_>('/api/picture/page', {
+  return request<API.BaseResponsePageResultPictureVo_>('/api/picture/page', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

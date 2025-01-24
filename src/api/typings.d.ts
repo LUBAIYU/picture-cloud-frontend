@@ -59,12 +59,6 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponsePageResultPicture_ = {
-    code?: number
-    data?: PageResultPicture_
-    message?: string
-  }
-
   type BaseResponsePageResultPictureVo_ = {
     code?: number
     data?: PageResultPictureVo_
@@ -268,13 +262,6 @@ declare namespace API {
     total?: number
   }
 
-  type PageResultPicture_ = {
-    /** 记录数据 */
-    records?: Picture[]
-    /** 总记录数 */
-    total?: number
-  }
-
   type PageResultPictureVo_ = {
     /** 记录数据 */
     records?: PictureVo[]
@@ -311,7 +298,7 @@ declare namespace API {
   }
 
   type Picture = {
-    category?: string
+    categoryId?: number
     createTime?: string
     editTime?: string
     introduction?: string
@@ -331,7 +318,6 @@ declare namespace API {
     reviewTime?: string
     reviewerId?: number
     spaceId?: number
-    tags?: string
     thumbnailUrl?: string
     updateTime?: string
     userId?: number
@@ -344,6 +330,19 @@ declare namespace API {
     namePrefix?: string
     /** 搜索关键词 */
     searchText?: string
+  }
+
+  type PictureEditByBatchDto = {
+    /** 分类ID */
+    categoryId?: number
+    /** 命名规则 */
+    nameRule?: string
+    /** 图片ID列表 */
+    pictureIdList?: number[]
+    /** 空间ID */
+    spaceId?: number
+    /** 标签ID列表 */
+    tagIdList?: number[]
   }
 
   type PicturePageDto = {
@@ -434,6 +433,8 @@ declare namespace API {
   type PictureVo = {
     /** 分类 */
     category?: string
+    /** 分类id */
+    categoryId?: number
     /** 创建时间 */
     createTime?: string
     /** 编辑时间 */
@@ -460,6 +461,14 @@ declare namespace API {
     picWidth?: number
     /** 未转为 webp 格式的原始图片 url */
     rawUrl?: string
+    /** 审核信息 */
+    reviewMessage?: string
+    /** 核状态：0-待审核；1-通过；2-拒绝 */
+    reviewStatus?: number
+    /** 审核时间 */
+    reviewTime?: string
+    /** 审核人ID */
+    reviewerId?: number
     /** 空间 id（为空表示公共空间） */
     spaceId?: number
     /** 标签（列表） */
