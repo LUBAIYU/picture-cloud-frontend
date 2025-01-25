@@ -76,6 +76,42 @@ export async function getPictureByIdUsingGet(
   })
 }
 
+/** 创建AI扩图任务 POST /api/picture/out_painting/create_task */
+export async function createOutPaintingTaskUsingPost(
+  body: API.PictureCreateOutPaintingTaskDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseCreateOutPaintingTaskResponse_>(
+    '/api/picture/out_painting/create_task',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+      ...(options || {}),
+    }
+  )
+}
+
+/** 查询AI扩图任务 GET /api/picture/out_painting/get_task */
+export async function getOutPaintingTaskUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getOutPaintingTaskUsingGETParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseGetOutPaintingTaskResponse_>(
+    '/api/picture/out_painting/get_task',
+    {
+      method: 'GET',
+      params: {
+        ...params,
+      },
+      ...(options || {}),
+    }
+  )
+}
+
 /** 分页查询图片（仅管理员） POST /api/picture/page */
 export async function queryPictureByPageUsingPost(
   body: API.PicturePageDto,

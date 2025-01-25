@@ -11,6 +11,18 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseCreateOutPaintingTaskResponse_ = {
+    code?: number
+    data?: CreateOutPaintingTaskResponse
+    message?: string
+  }
+
+  type BaseResponseGetOutPaintingTaskResponse_ = {
+    code?: number
+    data?: GetOutPaintingTaskResponse
+    message?: string
+  }
+
   type BaseResponseInt_ = {
     code?: number
     data?: number
@@ -180,6 +192,13 @@ declare namespace API {
     name?: string
   }
 
+  type CreateOutPaintingTaskResponse = {
+    code?: string
+    message?: string
+    output?: Output
+    requestId?: string
+  }
+
   type delBatchCategoryUsingDELETEParams = {
     /** ids */
     ids: number[]
@@ -213,6 +232,16 @@ declare namespace API {
   type getCategoryByIdUsingGETParams = {
     /** id */
     id: number
+  }
+
+  type GetOutPaintingTaskResponse = {
+    output?: Output1
+    requestId?: string
+  }
+
+  type getOutPaintingTaskUsingGETParams = {
+    /** taskId */
+    taskId?: string
   }
 
   type getPictureByIdUsingGETParams = {
@@ -253,6 +282,23 @@ declare namespace API {
   type ImageSearchResult = {
     fromUrl?: string
     thumbUrl?: string
+  }
+
+  type Output = {
+    taskId?: string
+    taskStatus?: string
+  }
+
+  type Output1 = {
+    code?: string
+    endTime?: string
+    message?: string
+    outputImageUrl?: string
+    scheduledTime?: string
+    submitTime?: string
+    taskId?: string
+    taskMetrics?: TaskMetrics
+    taskStatus?: string
   }
 
   type PageResultCategory_ = {
@@ -297,6 +343,20 @@ declare namespace API {
     total?: number
   }
 
+  type Parameters = {
+    addWatermark?: boolean
+    angle?: number
+    bestQuality?: boolean
+    bottomOffset?: number
+    leftOffset?: number
+    limitImageSize?: boolean
+    outputRatio?: string
+    rightOffset?: number
+    topOffset?: number
+    xScale?: number
+    yScale?: number
+  }
+
   type Picture = {
     categoryId?: number
     createTime?: string
@@ -330,6 +390,12 @@ declare namespace API {
     namePrefix?: string
     /** 搜索关键词 */
     searchText?: string
+  }
+
+  type PictureCreateOutPaintingTaskDto = {
+    parameters?: Parameters
+    /** 图片ID */
+    pictureId?: number
   }
 
   type PictureEditByBatchDto = {
@@ -604,6 +670,12 @@ declare namespace API {
     id?: number
     /** 标签名称 */
     name?: string
+  }
+
+  type TaskMetrics = {
+    failed?: number
+    succeeded?: number
+    total?: number
   }
 
   type testFileDownloadUsingGETParams = {

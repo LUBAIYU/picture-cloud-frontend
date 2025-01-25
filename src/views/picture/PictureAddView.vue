@@ -7,8 +7,9 @@ import { message } from 'ant-design-vue'
 import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
 import { listCategoryUsingGet } from '@/api/fenleimokuai.ts'
 import { listTagUsingGet } from '@/api/biaoqianmokuai.ts'
-import { EditOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import ImageCropper from '@/components/ImageCropper.vue'
+import ImageOutPainting from '@/components/ImageOutPainting.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -129,6 +130,19 @@ const onCropperSuccess = (newPicture: API.PictureVo) => {
   picture.value = newPicture
 }
 
+// ----- AI 扩图 --------
+const imageOutPaintingRef = ref(null)
+
+const doOutPaintingPicture = () => {
+  if (imageOutPaintingRef.value) {
+    imageOutPaintingRef.value.openModal()
+  }
+}
+
+const onOutPaintingSuccess = (newPicture: API.PictureVo) => {
+  picture.value = newPicture
+}
+
 onMounted(() => getCategoryList())
 onMounted(() => getTagList())
 onMounted(() => getOldPicture())
@@ -155,13 +169,24 @@ onMounted(() => getOldPicture())
     </a-tabs>
     <!-- 图片编辑 -->
     <div v-if="picture" class="edit-bar">
-      <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+      <a-space>
+        <a-button :icon="h(EditOutlined)" @click="doEditPicture">编辑图片</a-button>
+        <a-button type="primary" :icon="h(FullscreenOutlined)" @click="doOutPaintingPicture">
+          AI 扩图
+        </a-button>
+      </a-space>
       <image-cropper
         ref="imageCropperRef"
         :picture="picture"
         :image-url="picture?.picUrl"
         :space-id="spaceId"
         :on-success="onCropperSuccess"
+      />
+      <image-out-painting
+        ref="imageOutPaintingRef"
+        :picture="picture"
+        :space-id="spaceId"
+        :on-success="onOutPaintingSuccess"
       />
     </div>
     <a-form v-if="picture" layout="vertical" :model="form" @finish="handleSubmit">
