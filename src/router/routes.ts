@@ -117,4 +117,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       hidden: true,
     },
   },
+  {
+    path: '/space/analyze',
+    name: '空间分析',
+    component: () => import('@/views/space/SpaceAnalyzeView.vue'),
+    meta: {
+      hidden: true,
+    },
+  },
 ]

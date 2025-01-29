@@ -8,7 +8,7 @@ import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
-import { EditOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, BarChartOutlined } from '@ant-design/icons-vue'
 import PictureBatchEditModal from '@/components/PictureBatchEditModal.vue'
 
 interface Props {
@@ -116,6 +116,15 @@ onMounted(() => loadData())
       <a-space>
         <a-button type="primary" :href="`/picture/add?spaceId=${id}`" target="_blank">
           + 创建图片
+        </a-button>
+        <a-button
+          type="primary"
+          ghost
+          :icon="h(BarChartOutlined)"
+          :href="`/space/analyze?spaceId=${id}`"
+          target="_blank"
+        >
+          空间分析
         </a-button>
         <a-button :icon="h(EditOutlined)" @click="doBatchEdit"> 批量编辑</a-button>
         <a-tooltip
