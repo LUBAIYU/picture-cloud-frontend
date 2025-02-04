@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { SPACE_LEVEL_OPTIONS } from '@/constants/space.ts'
+import { SPACE_LEVEL_OPTIONS, SPACE_TYPE_ENUM, SPACE_TYPE_MAP } from '@/constants/space.ts'
 import {
   createSpaceUsingPost,
   getSpaceVoByIdUsingGet,
@@ -18,6 +18,14 @@ const loading = ref(false)
 const space = ref<API.SpaceVo>({})
 const form = ref<API.SpaceCreateDto | API.SpaceUpdateDto>({})
 const spaceLevelList = ref<API.SpaceLevelVo[]>([])
+
+// 空间类别
+const spaceType = computed(() => {
+  if (route.query?.type) {
+    return Number(route.query.type)
+  }
+  return SPACE_TYPE_ENUM.PRIVATE
+})
 
 /**
  * 获取空间级别信息列表
@@ -48,6 +56,7 @@ const handleSubmit = async () => {
     // 创建操作
     res = await createSpaceUsingPost({
       ...form.value,
+      spaceType: spaceType.value,
     })
   }
   if (res.code === 0 && res.data) {
@@ -87,7 +96,7 @@ onMounted(() => getSpaceLevelList())
 <template>
   <div id="spaceAddView">
     <h2 style="margin-bottom: 16px">
-      {{ route.query?.id ? '修改空间' : '创建空间' }}
+      {{ route.query?.id ? '修改' : '创建' }}{{ SPACE_TYPE_MAP[spaceType] }}
     </h2>
     <a-form layout="vertical" :model="form" @finish="handleSubmit">
       <a-form-item label="空间名称" name="picName">

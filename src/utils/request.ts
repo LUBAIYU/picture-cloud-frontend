@@ -13,14 +13,7 @@ request.defaults.paramsSerializer = (params) => qs.stringify(params, { arrayForm
 
 // 全局请求拦截器
 request.interceptors.request.use(
-  (config) => {
-    // 从本地获取Token
-    const token = localStorage.getItem('Authorization')
-    if (token) {
-      config.headers['Authorization'] = `${token}`
-    }
-    return config
-  },
+  (config) => config,
   (error) => {
     return Promise.reject(error)
   },

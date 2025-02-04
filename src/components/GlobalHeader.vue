@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore.ts'
 import emitter from '@/eventBus.ts'
 import { routes } from '@/router/routes.ts'
+import { logoutUsingPost } from '@/api/yonghumokuai.ts'
+import { message } from 'ant-design-vue'
 
 const router = useRouter()
 
@@ -58,12 +60,17 @@ router.afterEach((to) => {
 })
 
 // 退出登录
-const logout = () => {
-  localStorage.removeItem('Authorization')
-  userStore.setLoginUser({
-    userName: '未登录',
-  })
-  router.push('/user/login')
+const logout = async () => {
+  const res = await logoutUsingPost()
+  if (res.code === 0 && res.data) {
+    message.success('操作成功')
+    userStore.setLoginUser({
+      userName: '未登录',
+    })
+    await router.push('/user/login')
+  } else {
+    message.error(res.message)
+  }
 }
 
 // 监听登录成功事件

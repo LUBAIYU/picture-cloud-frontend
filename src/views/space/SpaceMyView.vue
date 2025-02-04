@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/userStore.ts'
 import { message } from 'ant-design-vue'
 import { querySpaceVoByPageUsingPost } from '@/api/kongjianmokuai.ts'
 import { onMounted } from 'vue'
+import { SPACE_TYPE_ENUM } from '@/constants/space.ts'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -20,6 +21,7 @@ const checkUserSpace = async () => {
   // 判断用户是否有私有空间
   const res = await querySpaceVoByPageUsingPost({
     userId: loginUser.userId,
+    spaceType: SPACE_TYPE_ENUM.PRIVATE,
     current: 1,
     pageSize: 1,
   })

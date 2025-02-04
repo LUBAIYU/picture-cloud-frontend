@@ -7,6 +7,7 @@ import * as wenjianmokuai from './wenjianmokuai'
 import * as tupianmokuai from './tupianmokuai'
 import * as kongjianfenximokuai from './kongjianfenximokuai'
 import * as kongjianmokuai from './kongjianmokuai'
+import * as kongjianyonghuguanlianmokuai from './kongjianyonghuguanlianmokuai'
 import * as biaoqianmokuai from './biaoqianmokuai'
 import * as yonghumokuai from './yonghumokuai'
 export default {
@@ -15,6 +16,7 @@ export default {
   tupianmokuai,
   kongjianfenximokuai,
   kongjianmokuai,
+  kongjianyonghuguanlianmokuai,
   biaoqianmokuai,
   yonghumokuai,
 }

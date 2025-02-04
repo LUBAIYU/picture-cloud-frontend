@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/userStore.ts'
 import { loginUsingPost } from '@/api/yonghumokuai.ts'
 import { message } from 'ant-design-vue'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import emitter from '@/eventBus.ts'
 
 const router = useRouter()
-const userStore = useUserStore()
 
 const form = ref<API.UserLoginDto>({
   userAccount: '',
@@ -18,13 +16,6 @@ const form = ref<API.UserLoginDto>({
 const login = async () => {
   const res = await loginUsingPost(form.value)
   if (res.code === 0 && res.data) {
-    // 保存token到本地
-    const token = res.data.token
-    if (!token) {
-      message.error('登录失败')
-      return
-    }
-    localStorage.setItem('Authorization', token)
     message.success('登录成功')
     await router.push('/')
     // 发送登录成功事件

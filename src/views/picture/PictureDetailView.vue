@@ -8,10 +8,11 @@ import {
   ShareAltOutlined,
 } from '@ant-design/icons-vue'
 import { deletePictureByIdUsingDelete, getPictureVoByIdUsingGet } from '@/api/tupianmokuai.ts'
-import { downloadImage, formatSize, toHexColor } from '../../utils'
+import { downloadImage, formatSize } from '../../utils'
 import { useUserStore } from '@/stores/userStore.ts'
 import { useRouter } from 'vue-router'
 import ShareModal from '@/components/ShareModal.vue'
+import { SPACE_PERMISSION_ENUM } from '@/constants/space.ts'
 
 interface Props {
   id: string | number
@@ -38,18 +39,6 @@ const fetchPictureDetail = async () => {
     message.error('获取图片详情失败：' + error.message)
   }
 }
-
-// 是否有编辑权限
-const canEdit = computed(() => {
-  const loginUser = userStore.loginUser
-  const user = picture.value?.userVo || {}
-  // 未登录不可编辑
-  if (!loginUser.userId) {
-    return false
-  }
-  // 图片作者或管理员可编辑
-  return loginUser.userId === user?.userId || loginUser.userRole === 0
-})
 
 const router = useRouter()
 
@@ -99,6 +88,17 @@ const doShare = () => {
     shareModalRef.value.openModal()
   }
 }
+
+// 通用权限检查函数
+function createPermissionChecker(permission: string) {
+  return computed(() => {
+    return (picture.value.permissionList ?? []).includes(permission)
+  })
+}
+
+// 定义权限检查
+const canEdit = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT)
+const canDelete = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE)
 </script>
 
 <template>
@@ -177,7 +177,7 @@ const doShare = () => {
             <a-button v-if="canEdit" :icon="h(EditOutlined)" type="default" @click="doEdit">
               编辑
             </a-button>
-            <a-button v-if="canEdit" :icon="h(DeleteOutlined)" danger @click="doDelete">
+            <a-button v-if="canDelete" :icon="h(DeleteOutlined)" danger @click="doDelete">
               删除
             </a-button>
           </a-space>

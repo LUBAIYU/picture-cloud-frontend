@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { deleteSpaceByIdUsingDelete, querySpaceByPageUsingPost } from '@/api/kongjianmokuai.ts'
-import { SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS } from '@/constants/space.ts'
+import { SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS, SPACE_TYPE_MAP, SPACE_TYPE_OPTIONS } from '@/constants/space.ts'
 import { formatSize } from '../../utils'
 
 const router = useRouter()
@@ -23,6 +23,11 @@ const columns = [
   {
     title: '空间级别',
     dataIndex: 'spaceLevel',
+    align: 'center',
+  },
+  {
+    title: '空间类别',
+    dataIndex: 'spaceType',
     align: 'center',
   },
   {
@@ -166,6 +171,15 @@ onMounted(() => loadData())
           style="min-width: 180px"
         />
       </a-form-item>
+      <a-form-item label="空间类别" name="spaceType">
+        <a-select
+          v-model:value="searchParams.spaceType"
+          :options="SPACE_TYPE_OPTIONS"
+          placeholder="请输入空间类别"
+          style="min-width: 180px"
+          allow-clear
+        />
+      </a-form-item>
       <a-form-item>
         <a-button type="primary" html-type="submit">搜索</a-button>
         <a-button style="margin-left: 10px; background-color: grey; color: white" @click="doReset"
@@ -183,6 +197,10 @@ onMounted(() => loadData())
         <!-- 空间级别 -->
         <template v-if="column.dataIndex === 'spaceLevel'">
           <a-tag>{{ SPACE_LEVEL_MAP[record.spaceLevel] }}</a-tag>
+        </template>
+        <!-- 空间类别 -->
+        <template v-if="column.dataIndex === 'spaceType'">
+          <a-tag>{{ SPACE_TYPE_MAP[record.spaceType] }}</a-tag>
         </template>
         <!-- 使用情况 -->
         <template v-if="column.dataIndex === 'spaceUseInfo'">

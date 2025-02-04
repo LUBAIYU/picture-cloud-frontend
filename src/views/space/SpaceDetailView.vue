@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, ref } from 'vue'
+import { computed, h, onMounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { getSpaceVoByIdUsingGet } from '@/api/kongjianmokuai.ts'
 import { formatSize } from '@/utils'
@@ -8,8 +8,9 @@ import PictureList from '@/components/PictureList.vue'
 import PictureSearchForm from '@/components/PictureSearchForm.vue'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
-import { EditOutlined, BarChartOutlined } from '@ant-design/icons-vue'
+import { BarChartOutlined, EditOutlined, TeamOutlined } from '@ant-design/icons-vue'
 import PictureBatchEditModal from '@/components/PictureBatchEditModal.vue'
+import { SPACE_PERMISSION_ENUM, SPACE_TYPE_MAP } from '../../constants/space.ts'
 
 interface Props {
   id: string | number
@@ -106,18 +107,55 @@ const doBatchEdit = () => {
 
 onMounted(() => fetchSpaceDetail())
 onMounted(() => loadData())
+
+watch(
+  () => props.id,
+  () => {
+    fetchSpaceDetail()
+    loadData()
+  },
+)
+
+// 通用权限检查函数
+const createPermissionChecker = (permission: string) => {
+  return computed(() => {
+    return (space.value.permissionList ?? []).includes(permission)
+  })
+}
+
+// 定义权限检查
+const canManageSpaceUser = createPermissionChecker(SPACE_PERMISSION_ENUM.SPACE_USER_MANAGE)
+const canUploadPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_UPLOAD)
+const canEditPicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_EDIT)
+const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_DELETE)
 </script>
 
 <template>
   <div id="spaceDetailView">
     <!-- 空间信息 -->
     <a-flex justify="space-between">
-      <h2>{{ space.spaceName }}（私有空间）</h2>
+      <h2>{{ space.spaceName }}（{{ SPACE_TYPE_MAP[space.spaceType] }}）</h2>
       <a-space>
-        <a-button type="primary" :href="`/picture/add?spaceId=${id}`" target="_blank">
+        <a-button
+          v-if="canUploadPicture"
+          type="primary"
+          :href="`/picture/add?spaceId=${id}`"
+          target="_blank"
+        >
           + 创建图片
         </a-button>
         <a-button
+          v-if="canManageSpaceUser"
+          type="primary"
+          ghost
+          :icon="h(TeamOutlined)"
+          :href="`/spaceUserManage/${id}`"
+          target="_blank"
+        >
+          成员管理
+        </a-button>
+        <a-button
+          v-if="canManageSpaceUser"
           type="primary"
           ghost
           :icon="h(BarChartOutlined)"
@@ -146,7 +184,14 @@ onMounted(() => loadData())
       <color-picker format="hex" @pureColorChange="onColorChange" />
     </a-form-item>
     <!-- 图片列表 -->
-    <picture-list :data-list="dataList" :loading="loading" :show-op="true" :on-reload="loadData" />
+    <picture-list
+      :data-list="dataList"
+      :loading="loading"
+      :show-op="true"
+      :on-reload="loadData"
+      :can-edit="canEditPicture"
+      :can-delete="canDeletePicture"
+    />
     <a-pagination
       style="text-align: right"
       v-model:current="searchParams.current"

@@ -83,6 +83,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListSpaceUserVo_ = {
+    code?: number
+    data?: SpaceUserVo[]
+    message?: string
+  }
+
   type BaseResponseListTagListVo_ = {
     code?: number
     data?: TagListVo[]
@@ -161,6 +167,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseSpaceUser_ = {
+    code?: number
+    data?: SpaceUser
+    message?: string
+  }
+
   type BaseResponseSpaceVo_ = {
     code?: number
     data?: SpaceVo
@@ -182,12 +194,6 @@ declare namespace API {
   type BaseResponseUser_ = {
     code?: number
     data?: User
-    message?: string
-  }
-
-  type BaseResponseUserLoginVo_ = {
-    code?: number
-    data?: UserLoginVo
     message?: string
   }
 
@@ -251,6 +257,11 @@ declare namespace API {
   }
 
   type deleteSpaceByIdUsingDELETEParams = {
+    /** id */
+    id: number
+  }
+
+  type deleteSpaceUserByIdUsingDELETEParams = {
     /** id */
     id: number
   }
@@ -543,6 +554,8 @@ declare namespace API {
     editTime?: string
     /** 简介 */
     introduction?: string
+    /** 权限列表 */
+    permissionList?: string[]
     /** 图片主色调 */
     picColor?: string
     /** 图片格式 */
@@ -593,6 +606,7 @@ declare namespace API {
     maxSize?: number
     spaceLevel?: number
     spaceName?: string
+    spaceType?: number
     totalCount?: number
     totalSize?: number
     updateTime?: string
@@ -622,6 +636,8 @@ declare namespace API {
     spaceLevel?: number
     /** 空间名称 */
     spaceName?: string
+    /** 空间类型：0-私有 1-团队 */
+    spaceType?: number
   }
 
   type SpaceEditDto = {
@@ -651,6 +667,8 @@ declare namespace API {
     spaceLevel?: number
     /** 空间名称 */
     spaceName?: string
+    /** 空间类型：0-私有 1-团队 */
+    spaceType?: number
     /** 创建用户 id */
     userId?: number
   }
@@ -735,6 +753,21 @@ declare namespace API {
     usedSize?: number
   }
 
+  type SpaceUser = {
+    createTime?: string
+    id?: number
+    spaceId?: number
+    spaceRole?: string
+    updateTime?: string
+    userId?: number
+  }
+
+  type SpaceUserAddDto = {
+    spaceId?: number
+    spaceRole?: string
+    userId?: number
+  }
+
   type SpaceUserAnalyzeDto = {
     /** 全空间分析 */
     queryAll?: boolean
@@ -755,6 +788,35 @@ declare namespace API {
     period?: string
   }
 
+  type SpaceUserEditDto = {
+    id?: number
+    spaceRole?: string
+  }
+
+  type SpaceUserQueryDto = {
+    id?: number
+    spaceId?: number
+    spaceRole?: string
+    userId?: number
+  }
+
+  type SpaceUserVo = {
+    /** 创建时间 */
+    createTime?: string
+    /** id */
+    id?: number
+    /** 空间 id */
+    spaceId?: number
+    /** 空间角色：viewer/editor/admin */
+    spaceRole?: string
+    spaceVo?: SpaceVo
+    /** 更新时间 */
+    updateTime?: string
+    /** 用户 id */
+    userId?: number
+    userVo?: UserVo
+  }
+
   type SpaceVo = {
     /** 创建时间 */
     createTime?: string
@@ -766,10 +828,14 @@ declare namespace API {
     maxCount?: number
     /** 空间图片的最大总大小 */
     maxSize?: number
+    /** 权限列表 */
+    permissionList?: string[]
     /** 空间级别：0-普通版 1-专业版 2-旗舰版 */
     spaceLevel?: number
     /** 空间名称 */
     spaceName?: string
+    /** 空间类型：0-私有 1-团队 */
+    spaceType?: number
     /** 当前空间下的图片数量 */
     totalCount?: number
     /** 当前空间下图片的总大小 */
@@ -855,11 +921,6 @@ declare namespace API {
     userAccount?: string
     /** 密码 */
     userPassword?: string
-  }
-
-  type UserLoginVo = {
-    /** 登录令牌 */
-    token?: string
   }
 
   type UserPageDto = {

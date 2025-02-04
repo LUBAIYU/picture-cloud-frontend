@@ -18,12 +18,16 @@ interface Props {
   loading?: boolean
   showOp?: boolean
   onReload?: () => void
+  canEdit?: boolean
+  canDelete?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   dataList: () => [],
   loading: false,
   showOp: false,
+  canEdit: false,
+  canDelete: false,
 })
 
 // 跳转到图片详情页
@@ -121,8 +125,12 @@ const doShare = (picture: API.PictureVo, e: any) => {
             <template v-if="showOp" #actions>
               <share-alt-outlined key="share" @click="(e: any) => doShare(picture, e)" />
               <search-outlined key="search" @click="(e: any) => doSearch(picture, e)" />
-              <edit-outlined key="edit" @click="(e: any) => doEdit(picture, e)" />
-              <delete-outlined key="delete" @click="(e: any) => doDelete(picture, e)" />
+              <edit-outlined v-if="canEdit" key="edit" @click="(e: any) => doEdit(picture, e)" />
+              <delete-outlined
+                v-if="canDelete"
+                key="delete"
+                @click="(e: any) => doDelete(picture, e)"
+              />
             </template>
           </a-card>
         </a-list-item>

@@ -125,4 +125,13 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       hidden: true,
     },
   },
+  {
+    path: '/spaceUserManage/:id',
+    name: '空间成员管理',
+    component: () => import('@/views/space/SpaceUserManageView.vue'),
+    props: true,
+    meta: {
+      hidden: true,
+    },
+  },
 ]
