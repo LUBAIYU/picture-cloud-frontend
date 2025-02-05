@@ -46,7 +46,7 @@ const menuItems = computed(() => {
   })
   const teamSpaceMenuGroup = {
     type: 'group',
-    label: '团队空间',
+    label: '我的团队',
     key: 'teamSpace',
     children: teamSpaceSubMenus,
   }

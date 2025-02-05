@@ -8,8 +8,7 @@ import {
   ShareAltOutlined,
 } from '@ant-design/icons-vue'
 import { deletePictureByIdUsingDelete, getPictureVoByIdUsingGet } from '@/api/tupianmokuai.ts'
-import { downloadImage, formatSize } from '../../utils'
-import { useUserStore } from '@/stores/userStore.ts'
+import { downloadImage, formatSize, toHexColor } from '../../utils'
 import { useRouter } from 'vue-router'
 import ShareModal from '@/components/ShareModal.vue'
 import { SPACE_PERMISSION_ENUM } from '@/constants/space.ts'
@@ -19,8 +18,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const userStore = useUserStore()
 
 const picture = ref<API.PictureVo>({})
 

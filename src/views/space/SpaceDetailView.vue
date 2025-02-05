@@ -145,7 +145,7 @@ const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_D
           + 创建图片
         </a-button>
         <a-button
-          v-if="canManageSpaceUser"
+          v-if="canManageSpaceUser && space.spaceType === 1"
           type="primary"
           ghost
           :icon="h(TeamOutlined)"
@@ -164,7 +164,9 @@ const canDeletePicture = createPermissionChecker(SPACE_PERMISSION_ENUM.PICTURE_D
         >
           空间分析
         </a-button>
-        <a-button :icon="h(EditOutlined)" @click="doBatchEdit"> 批量编辑</a-button>
+        <a-button v-if="canEditPicture" :icon="h(EditOutlined)" @click="doBatchEdit">
+          批量编辑
+        </a-button>
         <a-tooltip
           :title="`占用空间 ${formatSize(space.totalSize)} / ${formatSize(space.maxSize)}`"
         >
