@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import { computed, h, onMounted, ref } from 'vue'
+import { computed, h, onMounted, ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getPictureVoByIdUsingGet, updatePictureUsingPut } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
@@ -10,6 +10,7 @@ import { listTagUsingGet } from '@/api/biaoqianmokuai.ts'
 import { EditOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import ImageCropper from '@/components/ImageCropper.vue'
 import ImageOutPainting from '@/components/ImageOutPainting.vue'
+import { getSpaceVoByIdUsingGet } from '@/api/kongjianmokuai.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -143,6 +144,23 @@ const onOutPaintingSuccess = (newPicture: API.PictureVo) => {
   picture.value = newPicture
 }
 
+// ------ 获取空间信息 --------
+const space = ref<API.SpaceVo>()
+
+const fetchSpace = async () => {
+  if (!spaceId.value) {
+    return
+  }
+  const res = await getSpaceVoByIdUsingGet({
+    id: spaceId.value,
+  })
+  if (res.code === 0 && res.data) {
+    space.value = res.data as API.SpaceVo
+  }
+}
+
+watchEffect(() => fetchSpace())
+
 onMounted(() => getCategoryList())
 onMounted(() => getTagList())
 onMounted(() => getOldPicture())
@@ -180,6 +198,7 @@ onMounted(() => getOldPicture())
         :picture="picture"
         :image-url="picture?.picUrl"
         :space-id="spaceId"
+        :space="space"
         :on-success="onCropperSuccess"
       />
       <image-out-painting
