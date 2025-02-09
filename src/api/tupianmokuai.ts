@@ -17,6 +17,51 @@ export async function uploadPictureByBatchUsingPost(
   })
 }
 
+/** 获取所有缓存Key GET /api/picture/cache/keyList */
+export async function listAllCacheKeysUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.listAllCacheKeysUsingGETParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListString_>('/api/picture/cache/keyList', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  })
+}
+
+/** 刷新指定缓存 POST /api/picture/cache/refresh */
+export async function refreshCacheUsingPost(
+  body: API.PicturePageDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/api/picture/cache/refresh', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
+/** 删除指定缓存 POST /api/picture/cache/remove */
+export async function deleteCacheByKeyUsingPost(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.deleteCacheByKeyUsingPOSTParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/api/picture/cache/remove', {
+    method: 'POST',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  })
+}
+
 /** 分页查询图片（封装类），多级缓存 POST /api/picture/cache/vo/page */
 export async function queryPictureVoByPageWithCacheUsingPost(
   body: API.PicturePageDto,

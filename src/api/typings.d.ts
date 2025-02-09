@@ -89,6 +89,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListString_ = {
+    code?: number
+    data?: string[]
+    message?: string
+  }
+
   type BaseResponseListTagListVo_ = {
     code?: number
     data?: TagListVo[]
@@ -251,6 +257,11 @@ declare namespace API {
     ids: number[]
   }
 
+  type deleteCacheByKeyUsingPOSTParams = {
+    /** hashKey */
+    hashKey?: string
+  }
+
   type deletePictureByIdUsingDELETEParams = {
     /** picId */
     picId: number
@@ -329,6 +340,11 @@ declare namespace API {
   type ImageSearchResult = {
     fromUrl?: string
     thumbUrl?: string
+  }
+
+  type listAllCacheKeysUsingGETParams = {
+    /** prefix */
+    prefix?: string
   }
 
   type Output = {

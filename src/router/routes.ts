@@ -134,4 +134,12 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       hidden: true,
     },
   },
+  {
+    path: '/picture/cache',
+    name: '图片缓存',
+    component: () => import('@/views/picture/PictureCacheView.vue'),
+    meta: {
+      access: 'admin',
+    },
+  },
 ]
