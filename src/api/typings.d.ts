@@ -257,9 +257,9 @@ declare namespace API {
     ids: number[]
   }
 
-  type deleteCacheByKeyUsingPOSTParams = {
+  type deleteCacheByKeyUsingGETParams = {
     /** hashKey */
-    hashKey?: string
+    hashKey: string
   }
 
   type deletePictureByIdUsingDELETEParams = {

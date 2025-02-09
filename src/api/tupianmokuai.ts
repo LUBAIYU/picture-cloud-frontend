@@ -47,14 +47,14 @@ export async function refreshCacheUsingPost(
   })
 }
 
-/** 删除指定缓存 POST /api/picture/cache/remove */
-export async function deleteCacheByKeyUsingPost(
+/** 删除指定缓存 GET /api/picture/cache/remove */
+export async function deleteCacheByKeyUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteCacheByKeyUsingPOSTParams,
+  params: API.deleteCacheByKeyUsingGETParams,
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>('/api/picture/cache/remove', {
-    method: 'POST',
+    method: 'GET',
     params: {
       ...params,
     },

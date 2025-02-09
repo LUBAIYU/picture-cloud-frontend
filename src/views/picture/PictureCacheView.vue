@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { deleteCacheByKeyUsingPost, listAllCacheKeysUsingGet } from '@/api/tupianmokuai.ts'
+import { deleteCacheByKeyUsingGet, listAllCacheKeysUsingGet } from '@/api/tupianmokuai.ts'
 import { message } from 'ant-design-vue'
 
 const prefix = ref<string>('')
@@ -23,7 +23,7 @@ const doSearch = async () => {
 
 // 删除指定缓存键
 const doDelete = async (key: string) => {
-  const res = await deleteCacheByKeyUsingPost({
+  const res = await deleteCacheByKeyUsingGet({
     hashKey: key,
   })
   if (res.code === 0 && res.data) {
