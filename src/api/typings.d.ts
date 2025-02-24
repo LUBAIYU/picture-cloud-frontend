@@ -29,6 +29,12 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseIPageCommentsViewVo_ = {
+    code?: number
+    data?: IPageCommentsViewVo_
+    message?: string
+  }
+
   type BaseResponseListCategoryListVo_ = {
     code?: number
     data?: CategoryListVo[]
@@ -107,9 +113,21 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseMapLongLong_ = {
+    code?: number
+    data?: Record<string, any>
+    message?: string
+  }
+
   type BaseResponsePageResultCategory_ = {
     code?: number
     data?: PageResultCategory_
+    message?: string
+  }
+
+  type BaseResponsePageResultCommentReviews_ = {
+    code?: number
+    data?: PageResultCommentReviews_
     message?: string
   }
 
@@ -209,6 +227,11 @@ declare namespace API {
     message?: string
   }
 
+  type cancelThumbCommentUsingPOSTParams = {
+    /** commentId */
+    commentId?: number
+  }
+
   type Category = {
     createTime?: string
     id?: number
@@ -240,6 +263,81 @@ declare namespace API {
     name?: string
   }
 
+  type CommentPageDto = {
+    /** 评论内容 */
+    content?: string
+    /** 当前页码 */
+    current?: number
+    /** 页面大小 */
+    pageSize?: number
+    /** 图片ID */
+    picId?: number
+    /** 0-待审核，1-通过，2-拒绝 */
+    status?: number
+    /** 用户ID */
+    userId?: number
+  }
+
+  type CommentPublishDto = {
+    /** 图片内容 */
+    content?: string
+    /** 父级评论ID */
+    parentId?: number
+    /** 图片ID */
+    picId?: number
+  }
+
+  type CommentReviewDto = {
+    /** 评论ID */
+    commentId?: number
+    /** 审核信息 */
+    reviewMsg?: string
+    /** 审核状态：1-通过；2-拒绝 */
+    reviewStatus?: number
+  }
+
+  type CommentReviews = {
+    commentId?: number
+    id?: number
+    reviewMsg?: string
+    reviewStatus?: number
+    reviewTime?: string
+    reviewerId?: number
+  }
+
+  type CommentReviewsPageDto = {
+    /** 评论ID */
+    commentId?: number
+    /** 当前页码 */
+    current?: number
+    /** 页面大小 */
+    pageSize?: number
+    /** 审核信息 */
+    reviewMsg?: string
+    /** 审核状态：1-通过；2-拒绝 */
+    reviewStatus?: number
+    /** 审核员ID */
+    reviewerId?: number
+  }
+
+  type CommentsViewVo = {
+    /** 子级评论 */
+    children?: CommentsViewVo[]
+    /** 评论内容 */
+    content?: string
+    /** 创建时间 */
+    createTime?: string
+    /** 主键ID */
+    id?: number
+    /** 点赞数 */
+    likeCount?: number
+    /** 父级评论ID */
+    parentId?: number
+    /** 图片ID */
+    picId?: number
+    user?: UserVo
+  }
+
   type CreateOutPaintingTaskResponse = {
     code?: string
     message?: string
@@ -260,6 +358,11 @@ declare namespace API {
   type deleteCacheByKeyUsingGETParams = {
     /** hashKey */
     hashKey: string
+  }
+
+  type deleteCommentUsingDELETEParams = {
+    /** id */
+    id: number
   }
 
   type deletePictureByIdUsingDELETEParams = {
@@ -288,6 +391,11 @@ declare namespace API {
   }
 
   type getCategoryByIdUsingGETParams = {
+    /** id */
+    id: number
+  }
+
+  type getCommentCountUsingGETParams = {
     /** id */
     id: number
   }
@@ -342,10 +450,20 @@ declare namespace API {
     thumbUrl?: string
   }
 
+  type IPageCommentsViewVo_ = {
+    current?: number
+    pages?: number
+    records?: CommentsViewVo[]
+    size?: number
+    total?: number
+  }
+
   type listAllCacheKeysUsingGETParams = {
     /** prefix */
     prefix?: string
   }
+
+  type MapLongLong_ = true
 
   type Output = {
     taskId?: string
@@ -367,6 +485,13 @@ declare namespace API {
   type PageResultCategory_ = {
     /** 记录数据 */
     records?: Category[]
+    /** 总记录数 */
+    total?: number
+  }
+
+  type PageResultCommentReviews_ = {
+    /** 记录数据 */
+    records?: CommentReviews[]
     /** 总记录数 */
     total?: number
   }
@@ -564,6 +689,8 @@ declare namespace API {
     category?: string
     /** 分类id */
     categoryId?: number
+    /** 评论总数 */
+    commentsCount?: number
     /** 创建时间 */
     createTime?: string
     /** 编辑时间 */
@@ -611,6 +738,11 @@ declare namespace API {
     /** 创建用户ID */
     userId?: number
     userVo?: UserVo
+  }
+
+  type queryBatchCommentCountUsingGETParams = {
+    /** ids */
+    ids: number[]
   }
 
   type Space = {
@@ -906,6 +1038,11 @@ declare namespace API {
     filePath?: string
   }
 
+  type thumbCommentUsingPOSTParams = {
+    /** commentId */
+    commentId?: number
+  }
+
   type uploadPictureUsingPOSTParams = {
     /** 图片URL */
     fileUrl?: string
@@ -930,6 +1067,9 @@ declare namespace API {
     userProfile?: string
     userRole?: number
     userStatus?: number
+    vipCode?: string
+    vipExpireTime?: string
+    vipNumber?: number
   }
 
   type UserLoginDto = {
@@ -997,5 +1137,10 @@ declare namespace API {
     userRole?: number
     /** 用户状态：0-不可用/1-可用 */
     userStatus?: number
+  }
+
+  type VipExchangeDto = {
+    /** 兑换码 */
+    vipCode?: string
   }
 }

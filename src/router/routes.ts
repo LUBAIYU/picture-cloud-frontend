@@ -23,6 +23,11 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     },
   },
   {
+    path: '/user/vip_exchange',
+    name: '会员兑换',
+    component: () => import('@/views/user/UserVipExchangeView.vue'),
+  },
+  {
     path: '/admin/userManage',
     name: '用户管理',
     component: () => import('@/views/admin/UserManageView.vue'),

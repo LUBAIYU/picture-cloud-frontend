@@ -68,6 +68,21 @@ export async function freezeBatchUsersUsingGet(
   })
 }
 
+/** 兑换VIP POST /api/user/exchange/vip */
+export async function exchangeVipUsingPost(
+  body: API.VipExchangeDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/exchange/vip', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 根据ID获取用户信息（仅管理员） GET /api/user/get/${param0} */
 export async function getUserByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
